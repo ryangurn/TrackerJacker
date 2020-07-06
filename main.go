@@ -1,8 +1,8 @@
 package main
 
 import (
-	"TrackerJacker/core/cross"
 	"TrackerJacker/core/enc"
+	"TrackerJacker/core/os/cross"
 	"TrackerJacker/core/parsing"
 	"fmt"
 	"io/ioutil"
