@@ -1,4 +1,5 @@
 /.idea
+.DS_Store
 
 # ignore the input & payloads
 input.json
