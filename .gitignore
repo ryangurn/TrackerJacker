@@ -1,1 +1,5 @@
 /.idea
+
+# ignore the input & payloads
+input.json
+payload.txt
