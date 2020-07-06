@@ -3,6 +3,7 @@ package cross
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"fmt"
 	"io"
 	"os"
 )
@@ -36,4 +37,32 @@ func FileHash(path string) (string, error) {
 	h = hex.EncodeToString(hashInBytes)
 
 	return h, nil
+}
+
+func FileParse(args []string, result interface{}) (retBool bool) {
+	retBool = false
+
+	if len(args) != 2 {
+		return
+	}
+
+	if args[0] == "exist" {
+		if FileExists(args[1]) == result {
+			retBool = true
+		}
+	} else if args[0] == "hash" {
+		res, err := FileHash(args[1])
+		if err != nil {
+			return
+		}
+
+		if res == result {
+			retBool = true
+		}
+	} else {
+		fmt.Printf("Unrecognized Command: %s\n", args[0])
+		return
+	}
+
+	return
 }
