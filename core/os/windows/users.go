@@ -3,7 +3,6 @@ package windows
 import (
 	"fmt"
 	wapi "github.com/iamacarpet/go-win64api"
-	"os/user"
 )
 
 func WAPIUserExist(usr string) (retBool bool) {
@@ -19,21 +18,6 @@ func WAPIUserExist(usr string) (retBool bool) {
 		if usr == u.Username {
 			retBool = true
 		}
-	}
-
-	return
-}
-
-func UserExist(usr string) (retBool bool) {
-	retBool = false
-	user, err := user.Lookup(usr)
-
-	if err != nil {
-		return
-	}
-
-	if user != nil {
-		retBool = true
 	}
 
 	return
