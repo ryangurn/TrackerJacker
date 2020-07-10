@@ -62,7 +62,7 @@ func UserMeta(usr string, key string, value interface{}) (retBool bool) {
 					retBool = true
 					return
 				}
-			} else if key == "LastLogin" {
+			} else if key == "LastLogon" {
 				if value.(time.Time) == u.LastLogon {
 					retBool = true
 					return
