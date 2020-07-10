@@ -1,6 +1,9 @@
 package windows
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
 const validUsername = "Ryan Gurnick"
 const invalidUsername = "Ryan"
@@ -78,7 +81,7 @@ func TestUserMeta(t *testing.T) {
 		// isAdmin
 		{ name: "User Meta IsAdmin Valid User - Valid Bool", args: args{usr: validUsername, key: "IsAdmin", value: "true"}, wantRetBool: true},
 		{ name: "User Meta IsAdmin Valid User - Invalid Bool", args: args{usr: validUsername, key: "IsAdmin", value: "false"}, wantRetBool: false},
-		{ name: "User Meta IsAdmin Invalid User - Valid Bool", args: args{usr: validUsername, key: "IsAdmin", value: "true"}, wantRetBool: false},
+		{ name: "User Meta IsAdmin Invalid User - Valid Bool", args: args{usr: invalidUsername, key: "IsAdmin", value: "true"}, wantRetBool: false},
 		{ name: "User Meta IsAdmin Invalid User - Invalid Bool", args: args{usr: invalidUsername, key: "IsAdmin", value: "t"}, wantRetBool: false},
 		{ name: "User Meta IsAdmin Invalid User - Invalid Bool", args: args{usr: invalidUsername, key: "IsAdmin", value: ""}, wantRetBool: false},
 
@@ -92,11 +95,38 @@ func TestUserMeta(t *testing.T) {
 		// isLocked
 		{ name: "User Meta IsLocked Valid User - Valid Bool", args: args{usr: validUsername, key: "IsLocked", value: "false"}, wantRetBool: true},
 		{ name: "User Meta IsLocked Valid User - Invalid Bool", args: args{usr: validUsername, key: "IsLocked", value: "true"}, wantRetBool: false},
-		{ name: "User Meta IsLocked Invalid User - Valid Bool", args: args{usr: invalidUsername, key: "IsLocked", value: "false"}, wantRetBool: false},
+		{ name: "User Meta IsLocked Invalid User - Valid Bool", args: args{usr: invalidUsername, key: "IsLocked", value: "true"}, wantRetBool: false},
 		{ name: "User Meta IsLocked Invalid User - Invalid Bool", args: args{usr: invalidUsername, key: "IsLocked", value: "t"}, wantRetBool: false},
 		{ name: "User Meta IsLocked Invalid User - Invalid Bool", args: args{usr: invalidUsername, key: "IsLocked", value: " -"}, wantRetBool: false},
 
-		// TODO: Add LastLogin, NoChangePassword, NumberOfLogons, PasswordAge, PasswordNeverExpires
+		// lastLogon (there is not a great way to tell if it is the true case right now)
+		{ name: "User Meta LastLogin Valid User - Valid Time", args: args{usr: validUsername, key: "LastLogon", value: time.Now().Add(time.Hour * time.Duration(1))}, wantRetBool: false},
+		{ name: "User Meta LastLogin Invalid User - Valid Time", args: args{usr: invalidUsername, key: "LastLogon", value: time.Now().Add(time.Hour * time.Duration(1))}, wantRetBool: false},
+		{ name: "User Meta LastLogin Invalid User - Empty Time", args: args{usr: invalidUsername, key: "LastLogon", value: time.Time{}}, wantRetBool: false},
+
+		// noChangePassword
+		{ name: "User Meta NoChangePassword Valid User - Valid Bool", args: args{usr: validUsername, key: "NoChangePassword", value: "false"}, wantRetBool: true},
+		{ name: "User Meta NoChangePassword Valid User - Valid Bool", args: args{usr: validUsername, key: "NoChangePassword", value: "true"}, wantRetBool: false},
+		{ name: "User Meta NoChangePassword Invalid User - Valid Bool", args: args{usr: invalidUsername, key: "NoChangePassword", value: "true"}, wantRetBool: false},
+		{ name: "User Meta NoChangePassword Invalid User - Invalid Bool", args: args{usr: invalidUsername, key: "NoChangePassword", value: "t"}, wantRetBool: false},
+		{ name: "User Meta NoChangePassword Invalid User - Invalid Bool", args: args{usr: invalidUsername, key: "NoChangePassword", value: ".."}, wantRetBool: false},
+
+		// numberOfLogons
+		{ name: "User Meta NumberOfLogons Valid User - Valid Int", args: args{usr: validUsername, key: "NumberOfLogons", value: uint32(1)}, wantRetBool: false},
+		{ name: "User Meta NumberOfLogons Valid User - Valid Int", args: args{usr: validUsername, key: "NumberOfLogons", value: uint32(5)}, wantRetBool: true},
+		{ name: "User Meta NumberOfLogons Invalid User - Valid Int", args: args{usr: invalidUsername, key: "NumberOfLogons", value: uint32(5)}, wantRetBool: false},
+		{ name: "User Meta NumberOfLogons Invalid User - No Count", args: args{usr: invalidUsername, key: "NumberOfLogons"}, wantRetBool: false},
+
+		// passwordAge (since this is a duration it will be hard to test the true case)
+		{ name: "User Meta PasswordAge Valid User - Valid Duration", args: args{usr: validUsername, key: "PasswordAge", value: time.Duration(time.Hour * 24)}, wantRetBool: false},
+		{ name: "User Meta PasswordAge Invalid User - Valid Duration", args: args{usr: invalidUsername, key: "PasswordAge", value: time.Duration(time.Hour * 24)}, wantRetBool: false},
+		{ name: "User Meta PasswordAge Invalid User - Empty Duration", args: args{usr: invalidUsername, key: "PasswordAge"}, wantRetBool: false},
+		
+		{ name: "User Meta PasswordNeverExpires Valid User - Valid Bool", args: args{usr: validUsername, key: "PasswordNeverExpires", value: "true"}, wantRetBool: false},
+		{ name: "User Meta PasswordNeverExpires Valid User - Valid Bool", args: args{usr: validUsername, key: "PasswordNeverExpires", value: "false"}, wantRetBool: true},
+		{ name: "User Meta PasswordNeverExpires Invalid User - Valid Bool", args: args{usr: invalidUsername, key: "PasswordNeverExpires", value: "false"}, wantRetBool: false},
+		{ name: "User Meta PasswordNeverExpires Invalid User - Invalid Bool", args: args{usr: invalidUsername, key: "PasswordNeverExpires", value: "f"}, wantRetBool: false},
+		{ name: "User Meta PasswordNeverExpires Invalid User - Invalid Bool", args: args{usr: invalidUsername, key: "PasswordNeverExpires", value: "/.."}, wantRetBool: false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
