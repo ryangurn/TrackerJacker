@@ -114,6 +114,10 @@ func UserLoggedIn(usr string) (retBool bool) {
 func UserParse(args []string, result interface{}) (retBool bool) {
 	retBool = false
 
+	// if args[0] does not exist
+	if len(args) < 1{
+		return
+	}
 
 	if args[0] == "exist" {
 		if len(args) != 2 {
