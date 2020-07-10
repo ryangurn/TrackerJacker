@@ -4,6 +4,7 @@ import (
 	"fmt"
 	wapi "github.com/iamacarpet/go-win64api"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -17,7 +18,7 @@ func UserExist(usr string) (retBool bool) {
 	}
 
 	for _, u := range users {
-		if usr == u.Username {
+		if strings.TrimSpace(strings.ToLower(usr)) == strings.TrimSpace(strings.ToLower(u.Username)) {
 			retBool = true
 		}
 	}
@@ -93,6 +94,23 @@ func UserMeta(usr string, key string, value interface{}) (retBool bool) {
 	return
 }
 
+func UserLoggedIn(usr string) (retBool bool) {
+	retBool = false
+
+	users, err := wapi.ListLoggedInUsers()
+	if err != nil {
+		return
+	}
+
+	for _, u := range users {
+		if strings.TrimSpace(strings.ToLower(usr)) == strings.TrimSpace(strings.ToLower(u.Username)) {
+			retBool = true
+		}
+	}
+
+	return
+}
+
 func UserParse(args []string, result interface{}) (retBool bool) {
 	retBool = false
 
@@ -110,6 +128,19 @@ func UserParse(args []string, result interface{}) (retBool bool) {
 		}
 		if UserMeta(args[1], args[2], args[3]) == result {
 			retBool = true
+		}
+	} else if args[0] == "logged" {
+		if len(args) != 3 {
+			return
+		}
+
+		if args[1] == "exist" {
+			if UserLoggedIn(args[2]) == result {
+				retBool = true
+			}
+		} else {
+			fmt.Printf("Unrecognized Command: %s\n", args[0])
+			return
 		}
 	} else {
 		fmt.Printf("Unrecognized Command: %s\n", args[0])
