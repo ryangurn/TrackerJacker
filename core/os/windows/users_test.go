@@ -68,9 +68,9 @@ func TestUserMeta(t *testing.T) {
 		{ name: "User Meta No Args", args: args{}, wantRetBool: false},
 
 		// badPasswordCount
-		{ name: "User Meta BadPasswordCount Valid User - Invalid Count", args: args{usr: validUsername, key: "BadPasswordCount", value: uint32(1)}, wantRetBool: false},
-		{ name: "User Meta BadPasswordCount Valid User - Valid Count", args: args{usr: validUsername, key: "BadPasswordCount", value: uint32(0)}, wantRetBool: true},
-		{ name: "User Meta BadPasswordCount Invalid User", args: args{usr: invalidUsername, key: "BadPasswordCount", value: uint32(99)}, wantRetBool: false},
+		{ name: "User Meta BadPasswordCount Valid User - Invalid Count", args: args{usr: validUsername, key: "BadPasswordCount", value: "1"}, wantRetBool: false},
+		{ name: "User Meta BadPasswordCount Valid User - Valid Count", args: args{usr: validUsername, key: "BadPasswordCount", value: "0"}, wantRetBool: true},
+		{ name: "User Meta BadPasswordCount Invalid User", args: args{usr: invalidUsername, key: "BadPasswordCount", value: "99"}, wantRetBool: false},
 		{ name: "User Meta BadPasswordCount Invalid User - No Count", args: args{usr: invalidUsername, key: "BadPasswordCount"}, wantRetBool: false},
 
 		// fullName
@@ -113,7 +113,7 @@ func TestUserMeta(t *testing.T) {
 
 		// numberOfLogons
 		{ name: "User Meta NumberOfLogons Valid User - Valid Int", args: args{usr: validUsername, key: "NumberOfLogons", value: uint32(1)}, wantRetBool: false},
-		{ name: "User Meta NumberOfLogons Valid User - Valid Int", args: args{usr: validUsername, key: "NumberOfLogons", value: uint32(5)}, wantRetBool: true},
+		{ name: "User Meta NumberOfLogons Valid User - Valid Int", args: args{usr: validUsername, key: "NumberOfLogons", value: uint32(6)}, wantRetBool: true},
 		{ name: "User Meta NumberOfLogons Invalid User - Valid Int", args: args{usr: invalidUsername, key: "NumberOfLogons", value: uint32(5)}, wantRetBool: false},
 		{ name: "User Meta NumberOfLogons Invalid User - No Count", args: args{usr: invalidUsername, key: "NumberOfLogons"}, wantRetBool: false},
 
@@ -147,7 +147,23 @@ func TestUserParse(t *testing.T) {
 		args        args
 		wantRetBool bool
 	}{
-		// TODO: Add test cases.
+		{ name: "User Parse Exist - Nominal Args", args: args{args: []string{"exist", validUsername}, result: true}, wantRetBool: true},
+		{ name: "User Parse Exist - No Args", args: args{args: []string{}, result: true}, wantRetBool: false},
+		{ name: "User Parse Exist - Incorrect Args", args: args{args: []string{"exists"}, result: true}, wantRetBool: false},
+		{ name: "User Parse Exist - Incorrect Args", args: args{args: []string{"exists", "", ""}, result: true}, wantRetBool: false},
+
+		{ name: "User Parse Meta - Nominal Args", args: args{args: []string{"meta", validUsername, "BadPasswordCount", "2"}, result: true}, wantRetBool: false},
+		{ name: "User Parse Meta - No Args", args: args{args: []string{}, result: true}, wantRetBool: false},
+		{ name: "User Parse Meta - Incorrect Args", args: args{args: []string{"meta", validUsername}, result: true}, wantRetBool: false},
+		{ name: "User Parse Meta - Incorrect Args", args: args{args: []string{"meta", validUsername, "IsLocked"}, result: true}, wantRetBool: false},
+
+		{ name: "User Parse Logged - Nominal Args", args: args{args: []string{"logged", "exist", validUsername}, result: true}, wantRetBool: true},
+		{ name: "User Parse Logged - Invalid User", args: args{args: []string{"logged", "exist", invalidUsername}, result: false}, wantRetBool: true},
+		{ name: "User Parse Logged - Invalid Args", args: args{args: []string{"logged", validUsername}, result: false}, wantRetBool: false},
+		{ name: "User Parse Logged - Invalid Args", args: args{args: []string{"logged", validUsername}, result: false}, wantRetBool: false},
+		{ name: "User Parse Logged - No Args", args: args{args: []string{}, result: false}, wantRetBool: false},
+
+		{ name: "Unrecognized Command", args: args{args: []string{}, result: false}, wantRetBool: false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

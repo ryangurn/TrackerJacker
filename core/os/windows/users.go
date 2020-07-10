@@ -38,7 +38,12 @@ func UserMeta(usr string, key string, value interface{}) (retBool bool) {
 	for _, u := range users {
 		if usr == u.Username {
 			if key == "BadPasswordCount" {
-				if value.(uint32) == u.BadPasswordCount {
+				us, err := strconv.ParseUint(value.(string), 10, 32)
+				if err != nil {
+					return
+				}
+
+				if uint32(us) == u.BadPasswordCount {
 					retBool = true
 					return
 				}
