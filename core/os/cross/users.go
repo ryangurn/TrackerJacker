@@ -16,3 +16,20 @@ func UserExist(usr string) (retBool bool) {
 
 	return
 }
+
+func UserParse(args []string, result interface{}) (retBool bool) {
+	retBool = false
+
+	if len(args) != 2 {
+		return
+	}
+
+	if args[0] == "exist" {
+		if UserExist(args[1]) == result {
+			retBool = true
+			return
+		}
+	}
+
+	return
+}
