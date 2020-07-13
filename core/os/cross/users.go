@@ -1,6 +1,9 @@
 package cross
 
-import "os/user"
+import (
+	"fmt"
+	"os/user"
+)
 
 // TODO: Add support for meta and logged in checks
 
@@ -31,6 +34,9 @@ func UserParse(args []string, result interface{}) (retBool bool) {
 			retBool = true
 			return
 		}
+	} else {
+		fmt.Printf("Unrecognized Command: %s\n", args[0])
+		return
 	}
 
 	return
