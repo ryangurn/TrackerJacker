@@ -11,7 +11,9 @@ func TestSoftwareExist(t *testing.T) {
 		args        args
 		wantRetBool bool
 	}{
-		// TODO: Add test cases.
+		{ name: "Software Exist Valid Software", args: args{software: "Microsoft Edge"}, wantRetBool: true},
+		{ name: "Software Exist Invalid Software", args: args{software: "Edge"}, wantRetBool: false},
+		{ name: "Software Exist Empty Args", args: args{}, wantRetBool: false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

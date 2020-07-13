@@ -39,7 +39,8 @@ func main() {
 			out := windows.UserParse(payload[i].Arguments, payload[i].Result)
 			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
 		} else if payload[i].Namespace == "softwares" {
-			windows.SoftwareParse(payload[i].Arguments, payload[i].Result)
+			out := windows.SoftwareParse(payload[i].Arguments, payload[i].Result)
+			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
 		} else {
 			fmt.Printf("Unrecognized Namespace: %s\n", payload[i].Namespace)
 		}
