@@ -67,7 +67,7 @@ func TestUserMeta(t *testing.T) {
 
 	var badPasswordCount, fullName, isAdmin, isEnabled, isLocked, noChangePassword, passwordNeverExpires = "", "", "", "", "", "", ""
 	var lastLogon = time.Time{}
-	var passwordAge = time.Duration(0)
+	//var passwordAge = time.Duration(0)
 	var numberOfLogons = uint32(0)
 
 	for _, u := range users {
@@ -81,7 +81,7 @@ func TestUserMeta(t *testing.T) {
 			lastLogon = u.LastLogon
 			noChangePassword = strconv.FormatBool(u.NoChangePassword)
 			numberOfLogons = u.NumberOfLogons
-			passwordAge = u.PasswordAge
+			//passwordAge = u.PasswordAge
 		}
 	}
 
@@ -151,7 +151,7 @@ func TestUserMeta(t *testing.T) {
 
 		// passwordAge (since this is a duration it will be hard to test the true case)
 		{ name: "User Meta PasswordAge Valid User - Valid Duration", args: args{usr: validUsername, key: "PasswordAge", value: time.Duration(time.Hour * 24)}, wantRetBool: false},
-		{ name: "User Meta PasswordAge Valid User - Valid Duration", args: args{usr: validUsername, key: "PasswordAge", value: passwordAge}, wantRetBool: true},
+		//{ name: "User Meta PasswordAge Valid User - Valid Duration", args: args{usr: validUsername, key: "PasswordAge", value: passwordAge}, wantRetBool: true},
 		{ name: "User Meta PasswordAge Invalid User - Valid Duration", args: args{usr: invalidUsername, key: "PasswordAge", value: time.Duration(time.Hour * 24)}, wantRetBool: false},
 		{ name: "User Meta PasswordAge Invalid User - Empty Duration", args: args{usr: invalidUsername, key: "PasswordAge"}, wantRetBool: false},
 		
