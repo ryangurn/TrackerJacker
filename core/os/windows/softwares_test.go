@@ -84,7 +84,16 @@ func TestSoftwareParse(t *testing.T) {
 		args        args
 		wantRetBool bool
 	}{
-		// TODO: Add test cases.
+		{name: "Software Parse Invalid Args", args: args{args: []string{"-1"}, result: -1}, wantRetBool: false},
+		{name: "Software Parse No Args", args: args{}, wantRetBool: false},
+		{name: "Software Parse Valid Args - Exist", args: args{args: []string{"exist", "Microsoft Edge"}, result: true}, wantRetBool: true},
+		{name: "Software Parse Valid Args - Does Not Exist", args: args{args: []string{"exist", "Microsoft"}, result: false}, wantRetBool: true},
+		{name: "Software Parse Valid Args - Invalid", args: args{args: []string{"exist"}, result: false}, wantRetBool: false},
+
+		{name: "Software Parse Meta - Nominal Args", args: args{args: []string{"meta", "Microsoft Edge", "DisplayVersion", "84.0.522.52"}, result: true}, wantRetBool: true},
+		{name: "Software Parse Meta - No Args", args: args{args: []string{}, result: true}, wantRetBool: false},
+		{name: "Software Parse Meta - Invalid Args", args: args{args: []string{"meta", "Microsoft", "DisplayVersion", "84.0.522.52"}, result: false}, wantRetBool: true},
+		{name: "Software Parse Meta - Invalid Args", args: args{args: []string{"meta", "Microsoft Edge", "1235", "84.0.522.52"}, result: false}, wantRetBool: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
