@@ -12,4 +12,4 @@ For questions please open up an issue in Github that has the question along with
 
 ### Windows
 1. Users (Comprehensive)
-2. Software [Work in progress]
+2. Software (Comprehensive)
