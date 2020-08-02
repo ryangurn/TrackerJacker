@@ -50,7 +50,7 @@ func SoftwareMeta(software string, key string, value interface{}) (retBool bool)
 					return
 				}
 			} else if key == "InstallDate" {
-				if v.InstallDate == value.(time.Time) {
+				if v.InstallDate.Equal(value.(time.Time)) {
 					retBool = true
 					return
 				}
