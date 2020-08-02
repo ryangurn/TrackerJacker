@@ -20,6 +20,7 @@ func UserExist(usr string) (retBool bool) {
 	for _, u := range users {
 		if strings.TrimSpace(strings.ToLower(usr)) == strings.TrimSpace(strings.ToLower(u.Username)) {
 			retBool = true
+			return
 		}
 	}
 
