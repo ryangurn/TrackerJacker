@@ -10,12 +10,66 @@ For questions please open up an issue in Github that has the question along with
 2. Hosts
 3. Users (Basic)
 
+#### Files
+* Existence
+* Hash
+
+**Todos**
+- [ ] Add check for text based questions from users, or decide if the app should host a mini server to provide http traffic to the user.
+
+#### Hosts
+* Host Existence
+* Ip Existence
+
+#### Users
+* Existence
+
+**Todos**
+- [ ] Add meta checks for feature parody with Windows
+
 ### Windows
 1. Users (Comprehensive)
 2. Groups (Completed/Basic)
 3. Software (Comprehensive)
-4. Services (Work In Progress) 
+4. Services (In Progress) 
 5. Shares (Planned)
 6. Processes (Planned)
 7. Policies (Planned)
 8. Firewalls (Planned)
+
+#### Users
+* Existence
+* BadPasswordCount
+* FullName
+* IsAdmin
+* IsEnabled
+* IsLocked
+* LastLogon
+* NoChangePassword
+* NumberOfLogons
+* PasswordAge
+* PasswordNeverExpires
+
+#### Groups
+* Existence
+* Comment
+
+**Todos**
+- [ ] Add check for membership
+
+#### Software
+* Existence
+* DisplayVersion
+* Arch
+* Publisher
+* InstallDate
+* EstimatedSize
+* Contact
+* HelpLink
+* InstallSource
+* InstallLocation
+* VersionMajor
+* VersionMinor
+
+#### Services
+**In Progress**
