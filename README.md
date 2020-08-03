@@ -4,6 +4,9 @@
 ## Questions
 For questions please open up an issue in Github that has the question along with any related lines of code noted! This will aid in tracking and discussing questions.
 
+## Major Todos
+- [ ] ensure that capitalization errors will not cause issues in validation. i.e: shift everything to lowercase and just for good measure trim whitespace.
+
 ## Checks
 ### Cross
 1. Files
@@ -72,4 +75,11 @@ For questions please open up an issue in Github that has the question along with
 * VersionMinor
 
 #### Services
-**In Progress**
+* Existence
+* DisplayName
+* StatusText
+* Status
+* AcceptStop
+* IsRunning
+* RunningPid
+* ServiceType
