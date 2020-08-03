@@ -12,9 +12,9 @@ For questions please open up an issue in Github that has the question along with
 
 ### Windows
 1. Users (Comprehensive)
-2. Groups (Work in progress)
+2. Groups (Completed/Basic)
 3. Software (Comprehensive)
-4. Services (Planned) 
+4. Services (Work In Progress) 
 5. Shares (Planned)
 6. Processes (Planned)
 7. Policies (Planned)
