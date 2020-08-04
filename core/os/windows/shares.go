@@ -4,17 +4,15 @@ import (
 	"TrackerJacker/core"
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"strings"
 )
 
 type ShareStruct []struct {
 	Caption        string      `json:"Caption"`
 	Description    string      `json:"Description"`
-	InstallDate    interface{} `json:"InstallDate"`
 	Status         string      `json:"Status"`
-	AccessMask     interface{} `json:"AccessMask"`
 	AllowMaximum   bool        `json:"AllowMaximum"`
-	MaximumAllowed interface{} `json:"MaximumAllowed"`
 	Name           string      `json:"Name"`
 	Path           string      `json:"Path"`
 	Type           int64       `json:"Type"`
@@ -24,7 +22,6 @@ func ShareExist(share string) (retBool bool) {
 	retBool = false
 
 	out := core.Command("Get-WmiObject win32_share | select Name | convertto-json")
-	//out := core.Command("Get-WmiObject win32_share | select Caption, Description, InstallDate, Status, AccessMask, AllowMaximum, MaximumAllowed, Name, Path, Type | convertto-json")
 	var structures ShareStruct
 	json.Unmarshal([]byte(out), &structures)
 	for _, s := range structures {
@@ -46,23 +43,45 @@ func ShareMeta(share string, key string, value interface{}) (retBool bool) {
 	for _, s := range structures {
 		if strings.TrimSpace(strings.ToLower(s.Name)) == strings.TrimSpace(strings.ToLower(share)) {
 			if key == "Status" {
-
+				if s.Status == value.(string) {
+					retBool = true
+					return
+				}
 			} else if key == "Caption" {
-
+				if s.Caption == value.(string) {
+					retBool = true
+					return
+				}
 			} else if key == "Description" {
-
+				if s.Description == value.(string) {
+					retBool = true
+					return
+				}
 			} else if key == "Path" {
-
-			} else if key == "InstallDate" {
-
-			} else if key == "AccessMask" {
-
+				if s.Path == value.(string) {
+					retBool = true
+					return
+				}
 			} else if key == "AllowMaximum" {
+				val, err := strconv.ParseBool(value.(string))
+				if err != nil {
+					return
+				}
 
-			} else if key == "MaximumAllowed" {
-
+				if s.AllowMaximum == val {
+					retBool = true
+					return
+				}
 			} else if key == "Type" {
+				us, err := strconv.ParseInt(value.(string), 10, 64)
+				if err != nil {
+					return
+				}
 
+				if s.Type == us {
+					retBool = true
+					return
+				}
 			}
 		}
 	}
