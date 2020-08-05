@@ -100,6 +100,11 @@ func ShareParse(args []string, result interface{}) (retBool bool) {
 			retBool = true
 			return
 		}
+	} else if args[0] == "meta" {
+		if ShareMeta(args[1], args[2], args[3]) == result {
+			retBool = true
+			return
+		}
 	} else {
 		fmt.Printf("Unrecognized Command: %s\n", args[0])
 		return

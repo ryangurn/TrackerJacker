@@ -35,8 +35,8 @@ For questions please open up an issue in Github that has the question along with
 2. Groups (Completed/Basic)
 3. Software (Comprehensive)
 4. Services (Comprehensive) 
-5. Shares (In Progress)
-6. Processes (Planned)
+5. Shares (Comprehensive)
+6. Processes (In Process)
 7. Policies (Planned)
 8. Firewalls (Planned)
 
@@ -86,3 +86,9 @@ For questions please open up an issue in Github that has the question along with
 
 #### Shares
 * Existence
+* Status
+* Caption
+* Description
+* Path
+* AllowMaximum
+* Type
