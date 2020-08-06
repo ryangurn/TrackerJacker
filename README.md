@@ -43,7 +43,7 @@ For questions please open up an issue in Github that has the question along with
 5. Shares (Comprehensive)
 6. Processes (Comprehensive)
 7. Policies (Planned)
-8. Firewalls (In Progress)
+8. Firewalls (Comprehensive)
 
 #### Users
 * Existence
