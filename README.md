@@ -8,6 +8,7 @@ For questions please open up an issue in Github that has the question along with
 - [ ] develop a web-server that can be run from any port on the client
 - [ ] ensure that capitalization errors will not cause issues in validation. i.e: shift everything to lowercase and just for good measure trim whitespace.
 - [ ] add in description and category into the input.json file to provide feedback to user via a web interface
+- [ ] ensure that all tests are using proper truthy values, this will need to use the provided getters that are utilized throughout the application already.
  
 
 ## Checks
@@ -21,7 +22,7 @@ For questions please open up an issue in Github that has the question along with
 * Hash
 
 **Todos**
-- [ ] Add check for text based questions from users, or decide if the app should host a mini server to provide http traffic to the user.
+- [ ] Add ability for text based questions from users, or decide if the app should host a mini server to provide http traffic to the user. (this will be included in the graphical user interface presented via the web-server.)
 
 #### Hosts
 * Host Existence
@@ -41,7 +42,7 @@ For questions please open up an issue in Github that has the question along with
 5. Shares (Comprehensive)
 6. Processes (Comprehensive)
 7. Policies (Planned)
-8. Firewalls (Planned)
+8. Firewalls (In Progress)
 
 #### Users
 * Existence
