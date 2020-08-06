@@ -10,3 +10,6 @@ payload.txt
 # templates
 /templates
 tmp.zip
+
+# gin
+gin.log
