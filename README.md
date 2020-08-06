@@ -5,7 +5,10 @@
 For questions please open up an issue in Github that has the question along with any related lines of code noted! This will aid in tracking and discussing questions.
 
 ## Major Todos
+- [ ] develop a web-server that can be run from any port on the client
 - [ ] ensure that capitalization errors will not cause issues in validation. i.e: shift everything to lowercase and just for good measure trim whitespace.
+- [ ] add in description and category into the input.json file to provide feedback to user via a web interface
+ 
 
 ## Checks
 ### Cross
