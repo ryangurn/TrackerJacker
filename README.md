@@ -92,3 +92,10 @@ For questions please open up an issue in Github that has the question along with
 * Path
 * AllowMaximum
 * Type
+
+#### Processes
+* Existence
+* Pid
+* Ppid
+* Username
+* Executable

@@ -50,6 +50,9 @@ func main() {
 		} else if payload[i].Namespace == "shares" {
 			out := windows.ShareParse(payload[i].Arguments, payload[i].Result)
 			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
+		} else if payload[i].Namespace == "processes" {
+			out := windows.ProcessParse(payload[i].Arguments, payload[i].Result)
+			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
 		} else {
 			fmt.Printf("Unrecognized Namespace: %s\n", payload[i].Namespace)
 		}
