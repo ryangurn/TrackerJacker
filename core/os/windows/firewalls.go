@@ -197,7 +197,7 @@ func FirewallMeta(firewall string, key string, value interface{}) (retBool bool)
 			return
 		}
 
-		if tmp.Enabled == int(ui) {
+		if tmp.EnableStealthModeForIPsec == int(ui) {
 			retBool = true
 			return
 		}
@@ -242,6 +242,7 @@ func FirewallMeta(firewall string, key string, value interface{}) (retBool bool)
 			return
 		}
 	} else if key == "Caption" {
+		fmt.Println(tmp.Caption)
 		if tmp.Caption == value {
 			retBool = true
 			return
