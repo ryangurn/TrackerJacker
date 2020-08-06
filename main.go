@@ -5,6 +5,7 @@ import (
 	"TrackerJacker/core/os/cross"
 	"TrackerJacker/core/os/windows"
 	"TrackerJacker/core/parsing"
+	"TrackerJacker/core/web"
 	"fmt"
 	"io/ioutil"
 )
@@ -26,8 +27,19 @@ func parsePayload() parsing.PayloadType {
 }
 
 func main() {
+	// setup the web directories
+	if web.Setup() != true {
+		return
+	}
+
+	// setup web server
+
+	// generate the payload
 	generatePayload("input.json")
+	// get the payload
 	payload := parsePayload()
+
+	// loop through payload items
 	for i := 0; i < len(payload); i++ {
 		if payload[i].Namespace == "files" {
 			out := cross.FileParse(payload[i].Arguments, payload[i].Result)
@@ -60,4 +72,6 @@ func main() {
 			fmt.Printf("Unrecognized Namespace: %s\n", payload[i].Namespace)
 		}
 	}
+
+	web.Clean()
 }
