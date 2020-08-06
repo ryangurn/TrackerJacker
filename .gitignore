@@ -1,6 +1,11 @@
 /.idea
 .DS_Store
+/__MACOSX
 
 # ignore the input & payloads
 input.json
 payload.txt
+
+# templates
+/templates
+tmp.zip
