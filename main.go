@@ -32,6 +32,9 @@ func main() {
 		if payload[i].Namespace == "files" {
 			out := cross.FileParse(payload[i].Arguments, payload[i].Result)
 			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
+		} else if payload[i].Namespace == "firewalls" {
+			out := windows.FirewallParse(payload[i].Arguments, payload[i].Result)
+			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
 		} else if payload[i].Namespace == "hosts" {
 			out := cross.HostParse(payload[i].Arguments, payload[i].Result)
 			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
