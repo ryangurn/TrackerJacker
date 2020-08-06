@@ -1,6 +1,7 @@
 /.idea
 .DS_Store
 /__MACOSX
+/vendor
 
 # ignore the input & payloads
 input.json
