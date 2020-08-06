@@ -39,7 +39,7 @@ For questions please open up an issue in Github that has the question along with
 3. Software (Comprehensive)
 4. Services (Comprehensive) 
 5. Shares (Comprehensive)
-6. Processes (In Process)
+6. Processes (Comprehensive)
 7. Policies (Planned)
 8. Firewalls (Planned)
 
