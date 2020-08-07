@@ -42,7 +42,7 @@ For questions please open up an issue in Github that has the question along with
 4. Services (Comprehensive) 
 5. Shares (Comprehensive)
 6. Processes (Comprehensive)
-7. Policies (Planned)
+7. Policies (In Progress)
 8. Firewalls (Comprehensive)
 
 #### Users
