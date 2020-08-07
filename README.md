@@ -44,6 +44,9 @@ For questions please open up an issue in Github that has the question along with
 6. Processes (Comprehensive)
 7. Policies (In Progress)
 8. Firewalls (Comprehensive)
+9. Updates (Planned)
+10. Bitlocker (Planned)
+11. Profiles (Planned)
 
 #### Users
 * Existence
@@ -57,6 +60,9 @@ For questions please open up an issue in Github that has the question along with
 * NumberOfLogons
 * PasswordAge
 * PasswordNeverExpires
+
+**Todos**
+- [ ] add sessions into the checks for users on windows [documentation](https://github.com/iamacarpet/go-win64api/blob/master/sessions.go).
 
 #### Groups
 * Existence
@@ -78,6 +84,9 @@ For questions please open up an issue in Github that has the question along with
 * InstallLocation
 * VersionMajor
 * VersionMinor
+
+**Todos**
+- [ ] add list of windows features
 
 #### Services
 * Existence
@@ -130,3 +139,6 @@ For questions please open up an issue in Github that has the question along with
 * LogFileName
 * Name
 * PSComputerName
+
+#### Policies
+Work in progress
