@@ -7,7 +7,10 @@ import (
 	"TrackerJacker/core/parsing"
 	"TrackerJacker/core/web"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"io"
 	"io/ioutil"
+	"os"
 )
 
 const encKey = "Password"
@@ -31,8 +34,6 @@ func main() {
 	if web.Setup() != true {
 		return
 	}
-
-	// setup web server
 
 	// generate the payload
 	generatePayload("input.json")
@@ -67,6 +68,9 @@ func main() {
 			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
 		} else if payload[i].Namespace == "processes" {
 			out := windows.ProcessParse(payload[i].Arguments, payload[i].Result)
+			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
+		} else if payload[i].Namespace == "policies" {
+			out := windows.PolicyParse(payload[i].Arguments, payload[i].Result)
 			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
 		} else {
 			fmt.Printf("Unrecognized Namespace: %s\n", payload[i].Namespace)
