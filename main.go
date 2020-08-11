@@ -7,10 +7,7 @@ import (
 	"TrackerJacker/core/parsing"
 	"TrackerJacker/core/web"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"io"
 	"io/ioutil"
-	"os"
 )
 
 const encKey = "Password"
