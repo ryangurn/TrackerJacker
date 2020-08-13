@@ -57,7 +57,6 @@ func checkStrings(k registry.Key, path string, key string, value interface{}) (r
 	return
 }
 
-
 func checkInteger64(k registry.Key, path string, key string, value interface{}) (retBool bool, err error) {
 	retBool = false
 	err = nil
