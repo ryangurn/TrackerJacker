@@ -141,4 +141,8 @@ For questions please open up an issue in Github that has the question along with
 * PSComputerName
 
 #### Policies
-Work in progress
+* String Policy Values
+* String array Policy Values
+* Integer64 Policy Values
+* Binary Policy Values
+* MUI Policy Values
