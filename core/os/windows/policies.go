@@ -4,52 +4,130 @@ import (
 	"fmt"
 	"golang.org/x/sys/windows/registry"
 	"strconv"
+	"strings"
 )
 
-func checkString() (retBool bool, err error) {
+func checkString(k registry.Key, path string, key string, value interface{}) (retBool bool, err error) {
 	retBool = false
 	err = nil
 
+	policy, err := registry.OpenKey(k, path, registry.QUERY_VALUE)
+	if err != nil {
+		return
+	}
+	defer policy.Close()
+
+	s, _, err := policy.GetStringValue(key)
+	if err != nil {
+		return
+	}
+
+	if strings.Compare(s, value.(string)) == 0{
+		retBool = true
+		return
+	}
 
 	return
 }
 
-func checkStrings() (retBool bool, err error) {
+func checkStrings(k registry.Key, path string, key string, value interface{}) (retBool bool, err error) {
 	retBool = false
 	err = nil
 
+	policy, err := registry.OpenKey(k, path, registry.QUERY_VALUE)
+	if err != nil {
+		return
+	}
+	defer policy.Close()
+
+	s, _, err := policy.GetStringsValue(key)
+	if err != nil {
+		return
+	}
+
+	check := true
+	for i := 0; i < len(s); i++ {
+		if strings.Compare(value.([]string)[i], s[i]) != 0 {
+			check = false
+			break
+		}
+	}
+	retBool = check
 
 	return
 }
 
-func checkInteger32() (retBool bool, err error) {
+
+func checkInteger64(k registry.Key, path string, key string, value interface{}) (retBool bool, err error) {
 	retBool = false
 	err = nil
 
+	policy, err := registry.OpenKey(k, path, registry.QUERY_VALUE)
+	if err != nil {
+		return
+	}
+	defer policy.Close()
+
+	i, _, err := policy.GetIntegerValue(key)
+	if err != nil {
+		return
+	}
+
+	ui, err := strconv.ParseUint(value.(string), 10, 32)
+	if err != nil {
+		return
+	}
+
+	if i == ui {
+		retBool = true
+		return
+	}
 
 	return
 }
 
-func getInteger64() (retBool bool, err error) {
+func checkBinary(k registry.Key, path string, key string, value interface{}) (retBool bool, err error) {
 	retBool = false
 	err = nil
 
+	policy, err := registry.OpenKey(k, path, registry.QUERY_VALUE)
+	if err != nil {
+		return
+	}
+	defer policy.Close()
+
+	b, _, err := policy.GetBinaryValue(key)
+	if err != nil {
+		return
+	}
+
+	if string(b) == value.(string) {
+		retBool = true
+		return
+	}
 
 	return
 }
 
-func checkBinary() (retBool bool, err error) {
+func checkMUI(k registry.Key, path string, key string, value interface{}) (retBool bool, err error) {
 	retBool = false
 	err = nil
 
+	policy, err := registry.OpenKey(k, path, registry.QUERY_VALUE)
+	if err != nil {
+		return
+	}
+	defer policy.Close()
 
-	return
-}
+	m, err := policy.GetMUIStringValue(key)
+	if err != nil {
+		return
+	}
 
-func checkMUI() (retBool bool, err error) {
-	retBool = false
-	err = nil
-
+	if m == value.(string) {
+		retBool = true
+		return
+	}
 
 	return
 }
@@ -57,41 +135,35 @@ func checkMUI() (retBool bool, err error) {
 func PolicyValue(k registry.Key, path string, key string, value interface{}) (retBool bool) {
 	retBool = false
 
-	policy, err := registry.OpenKey(k, path, registry.QUERY_VALUE)
-	if err != nil {
-		return
-	}
-	defer k.Close()
-
 	// check string type
-
-	s, _, err := policy.GetStringValue(key)
+	// string
+	strBool, err := checkString(k, path, key, value)
 	if err != nil {
-		// check int type
-		i, _, err := policy.GetIntegerValue(key)
+
+		strsBool, err := checkStrings(k, path, key, value)
 		if err != nil {
-			fmt.Println("err2", err)
+			int64Bool, err := checkInteger64(k, path, key, value)
+			if err != nil {
+				binBool, err := checkBinary(k, path, key, value)
+				if err != nil {
+					MUIBool, err := checkMUI(k, path, key, value)
+					if err != nil {
+						return
+					} else {
+						return MUIBool
+					}
+				} else {
+					return binBool
+				}
+			} else {
+				return int64Bool
+			}
+		} else {
+			return strsBool
 		}
-
-		ui, err := strconv.ParseUint(value.(string), 10, 32)
-		if err != nil {
-			return
-		}
-
-		if i == ui {
-			retBool = true
-			return
-		}
-
-		return
+	} else {
+		return strBool
 	}
-
-	if s == value.(string) {
-		retBool = true
-		return
-	}
-
-	return
 }
 
 func PolicyParse(args []string, result interface{}) (retBool bool) {
