@@ -195,7 +195,6 @@ func PolicyParse(args []string, result interface{}) (retBool bool) {
 			break
 		default:
 			return false
-			break
 		}
 		
 		if PolicyValue(key, args[2], args[3], args[4]) == result {
