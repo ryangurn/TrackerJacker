@@ -44,8 +44,8 @@ For questions please open up an issue in Github that has the question along with
 6. Processes (Comprehensive)
 7. Policies (Comprehensive)
 8. Firewalls (Comprehensive)
-9. Updates (In Progress)
-10. Bitlocker (Planned)
+9. Updates (Comprehensive)
+10. Bitlocker (In Progress)
 11. Profiles (Planned)
 
 #### Users
@@ -146,3 +146,7 @@ For questions please open up an issue in Github that has the question along with
 * Integer64 Policy Values
 * Binary Policy Values
 * MUI Policy Values
+
+#### Updates
+* Updated
+* Update History Exists
