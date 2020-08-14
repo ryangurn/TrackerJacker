@@ -32,7 +32,8 @@ func Updated(completed bool) (retBool bool) {
 		return
 	}
 
-	if updates.UpdatesReq == completed {
+	fmt.Println(!updates.UpdatesReq, completed)
+	if !updates.UpdatesReq == completed {
 		retBool = true
 		return
 	}
