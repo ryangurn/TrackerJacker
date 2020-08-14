@@ -42,9 +42,9 @@ For questions please open up an issue in Github that has the question along with
 4. Services (Comprehensive) 
 5. Shares (Comprehensive)
 6. Processes (Comprehensive)
-7. Policies (In Progress)
+7. Policies (Comprehensive)
 8. Firewalls (Comprehensive)
-9. Updates (Planned)
+9. Updates (In Progress)
 10. Bitlocker (Planned)
 11. Profiles (Planned)
 
