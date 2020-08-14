@@ -88,6 +88,9 @@ func main() {
 		} else if payload[i].Namespace == "policies" {
 			out := windows.PolicyParse(payload[i].Arguments, payload[i].Result)
 			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
+		} else if payload[i].Namespace == "updates" {
+			out := windows.UpdateParse(payload[i].Arguments, payload[i].Result)
+			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
 		} else {
 			bugsnag.Notify(fmt.Errorf("n(%s) does not exist", payload[i].Namespace))
 			fmt.Printf("Unrecognized Namespace: %s\n", payload[i].Namespace)
