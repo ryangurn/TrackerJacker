@@ -37,7 +37,7 @@ For questions please open up an issue in Github that has the question along with
 
 ### Windows
 1. Users (Comprehensive)
-2. Groups (Completed/Basic)
+2. Groups (Basic)
 3. Software (Comprehensive)
 4. Services (Comprehensive) 
 5. Shares (Comprehensive)
@@ -45,7 +45,7 @@ For questions please open up an issue in Github that has the question along with
 7. Policies (Comprehensive)
 8. Firewalls (Comprehensive)
 9. Updates (Comprehensive)
-10. Bitlocker (In Progress)
+10. Bitlocker (Basic)
 11. Profiles (Planned)
 
 #### Users
@@ -150,3 +150,10 @@ For questions please open up an issue in Github that has the question along with
 #### Updates
 * Updated
 * Update History Exists
+
+#### Bitlocker
+* Existence
+* DeviceID
+* PersistentVolumeID
+* ConversionStatus
+* ProtectionStatus
