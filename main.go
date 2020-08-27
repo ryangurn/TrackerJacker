@@ -57,8 +57,11 @@ func main() {
 
 	// loop through payload items
 	for i := 0; i < len(payload); i++ {
-		bugsnag.Notify(fmt.Errorf("n(%s), a(%s) r(%b)", payload[i].Namespace, payload[i].Arguments, payload[i].Result))
-		if payload[i].Namespace == "files" {
+		// bugsnag.Notify(fmt.Errorf("n(%s), a(%s) r(%b)", payload[i].Namespace, payload[i].Arguments, payload[i].Result))
+		if payload[i].Namespace == "bitlocker" {
+			out := windows.BitlockerParse(payload[i].Arguments, payload[i].Result)
+			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
+		} else if payload[i].Namespace == "files" {
 			out := cross.FileParse(payload[i].Arguments, payload[i].Result)
 			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
 		} else if payload[i].Namespace == "firewalls" {
@@ -92,7 +95,7 @@ func main() {
 			out := windows.UpdateParse(payload[i].Arguments, payload[i].Result)
 			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
 		} else {
-			bugsnag.Notify(fmt.Errorf("n(%s) does not exist", payload[i].Namespace))
+			// bugsnag.Notify(fmt.Errorf("n(%s) does not exist", payload[i].Namespace))
 			fmt.Printf("Unrecognized Namespace: %s\n", payload[i].Namespace)
 		}
 	}
