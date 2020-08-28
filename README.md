@@ -157,3 +157,7 @@ For questions please open up an issue in Github that has the question along with
 * PersistentVolumeID
 * ConversionStatus
 * ProtectionStatus
+
+#### Profiles
+* User Profile Directory
+* Global Profile Directory
