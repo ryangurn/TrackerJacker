@@ -27,14 +27,6 @@ func parsePayload() parsing.PayloadType {
 	return payload
 }
 
-func getParameters(parameters interface{}, key string) interface{} {
-	val, ok := parameters.(map[string]interface{})[key]
-	if ok {
-		return val
-	}
-	return nil
-}
-
 func printDebug(space string, id int, result bool) {
 	fmt.Printf("Space: %s | ID: %d | Output: %t\n", space, id, result)
 }
@@ -65,56 +57,56 @@ func main() {
 	// loop through payload items
 	for i := 0; i < len(payload); i++ {
 
-		if payload[i].GetRule.Space == "files" {
+		if payload.GetSpace(i) == "files" {
 			// files rule implementation
-			if payload[i].RuleAction == "exists" {
+			if payload.GetAction(i) == "exists" {
 				// exists
-				result := cross.FileExists(getParameters(payload[i].Parameters, "path").(string))
-				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
-			} else if payload[i].RuleAction == "does_not_exist" {
+				result := cross.FileExists(payload.GetParameter(i, "path"))
+				payload.DebugPrint(i, result)
+			} else if payload.GetAction(i) == "does_not_exist" {
 				// negate exists
-				result := !cross.FileExists(getParameters(payload[i].Parameters, "path").(string))
-				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
-			} else if payload[i].RuleAction == "hash" {
-				str, err := cross.FileHash(getParameters(payload[i].Parameters, "path").(string))
+				result := !cross.FileExists(payload.GetParameter(i, "path"))
+				payload.DebugPrint(i, result)
+			} else if payload.GetAction(i) == "hash" {
+				str, err := cross.FileHash(payload.GetParameter(i, "path"))
 				if err != nil {
 					// hashing error
-					printDebug(payload[i].GetRule.Space, payload[i].ID, false)
+					payload.DebugPrint(i, false)
 				} else {
 					// no error
-					result := str == getParameters(payload[i].Parameters, "hash").(string)
-					printDebug(payload[i].GetRule.Space, payload[i].ID, result)
+					result := str == payload.GetParameter(i, "hash")
+					payload.DebugPrint(i, result)
 				}
 			}
 			// end files
-		} else if payload[i].GetRule.Space == "hosts" {
+		} else if payload.GetSpace(i) == "hosts" {
 			// hosts rule implementation
-			if payload[i].RuleAction == "ip_exists" {
+			if payload.GetAction(i) == "ip_exists" {
 				// ip address exists
-				result := cross.HostIpExist(getParameters(payload[i].Parameters, "ip").(string))
-				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
-			} else if payload[i].RuleAction == "ip_does_not_exist" {
+				result := cross.HostIpExist(payload.GetParameter(i, "ip"))
+				payload.DebugPrint(i, result)
+			} else if payload.GetAction(i) == "ip_does_not_exist" {
 				// ip address does not exist
-				result := !cross.HostIpExist(getParameters(payload[i].Parameters, "ip").(string))
-				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
-			} else if payload[i].RuleAction == "host_exist" {
+				result := !cross.HostIpExist(payload.GetParameter(i, "ip"))
+				payload.DebugPrint(i, result)
+			} else if payload.GetAction(i) == "host_exist" {
 				// host exists
-				result := cross.HostExist(getParameters(payload[i].Parameters, "ip").(string))
-				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
-			} else if payload[i].RuleAction == "host_does_not_exist" {
+				result := cross.HostExist(payload.GetParameter(i, "host"))
+				payload.DebugPrint(i, result)
+			} else if payload.GetAction(i) == "host_does_not_exist" {
 				// host does not exist
-				result := !cross.HostExist(getParameters(payload[i].Parameters, "ip").(string))
-				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
+				result := !cross.HostExist(payload.GetParameter(i, "host"))
+				payload.DebugPrint(i, result)
 			}
 			// end hosts
-		} else if payload[i].GetRule.Space == "users" {
+		} else if payload.GetSpace(i) == "users" {
 			// users rule implementation
-			if payload[i].RuleAction == "exists" {
-				result := cross.UserExist(getParameters(payload[i].Parameters, "username").(string))
-				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
-			} else if payload[i].RuleAction == "does_not_exist" {
-				result := !cross.UserExist(getParameters(payload[i].Parameters, "username").(string))
-				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
+			if payload.GetAction(i) == "exists" {
+				result := cross.UserExist(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, result)
+			} else if payload.GetAction(i) == "does_not_exist" {
+				result := !cross.UserExist(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, result)
 			}
 			// end users
 		}

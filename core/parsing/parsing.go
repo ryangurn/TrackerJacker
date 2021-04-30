@@ -2,6 +2,7 @@ package parsing
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 )
 
@@ -36,6 +37,26 @@ type PayloadType []struct {
 		CreatedAt   time.Time 		`json:"created_at"`
 		UpdatedAt   time.Time 		`json:"updated_at"`
 	} 								`json:"get_rule"`
+}
+
+func (payload PayloadType) GetSpace(id int) string {
+	return payload[id].GetRule.Space
+}
+
+func (payload PayloadType) GetAction(id int) string {
+	return payload[id].RuleAction
+}
+
+func (payload PayloadType) GetParameter(id int, key string) string {
+	val, ok := payload[id].Parameters.(map[string]interface{})[key]
+	if ok {
+		return val.(string)
+	}
+	return ""
+}
+
+func (payload PayloadType) DebugPrint(id int, result bool) {
+	fmt.Printf("Space: %s | Action: %s | ID: %d | Output: %t\n", payload.GetSpace(id), payload.GetAction(id), id, result)
 }
 
 func ParsePayload(str []byte, payload *PayloadType) *PayloadType {
