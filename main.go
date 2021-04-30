@@ -3,9 +3,7 @@ package main
 import (
 	"TrackerJacker/core/enc"
 	"TrackerJacker/core/os/cross"
-	"TrackerJacker/core/os/windows"
 	"TrackerJacker/core/parsing"
-	"TrackerJacker/core/web"
 	"fmt"
 	"github.com/bugsnag/bugsnag-go"
 	"github.com/joho/godotenv"
@@ -29,7 +27,21 @@ func parsePayload() parsing.PayloadType {
 	return payload
 }
 
+func getParameters(parameters interface{}, key string) interface{} {
+	val, ok := parameters.(map[string]interface{})[key]
+	if ok {
+		return val
+	}
+	return nil
+}
+
+func printDebug(space string, id int, result bool) {
+	fmt.Printf("Space: %s | ID: %d | Output: %t\n", space, id, result)
+}
+
 func main() {
+	// todo: wait for the error to be resolved before starting
+	// (ideally this will be when another program executes and creates the .env file)
 	err := godotenv.Load()
 	if err != nil {
 		fmt.Println("Error loading env file")
@@ -45,11 +57,6 @@ func main() {
 		ProjectPackages: []string{"main"},
 	})
 
-	// setup the web directories
-	if web.Setup() != true {
-		return
-	}
-
 	// generate the payload
 	generatePayload("input.json")
 	// get the payload
@@ -57,51 +64,59 @@ func main() {
 
 	// loop through payload items
 	for i := 0; i < len(payload); i++ {
-		// bugsnag.Notify(fmt.Errorf("n(%s), a(%s) r(%b)", payload[i].Namespace, payload[i].Arguments, payload[i].Result))
-		if payload[i].Namespace == "bitlocker" {
-			out := windows.BitlockerParse(payload[i].Arguments, payload[i].Result)
-			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
-		} else if payload[i].Namespace == "files" {
-			out := cross.FileParse(payload[i].Arguments, payload[i].Result)
-			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
-		} else if payload[i].Namespace == "firewalls" {
-			out := windows.FirewallParse(payload[i].Arguments, payload[i].Result)
-			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
-		} else if payload[i].Namespace == "hosts" {
-			out := cross.HostParse(payload[i].Arguments, payload[i].Result)
-			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
-		} else if payload[i].Namespace == "users" {
-			out := windows.UserParse(payload[i].Arguments, payload[i].Result)
-			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
-		} else if payload[i].Namespace == "groups" {
-			out := windows.GroupParse(payload[i].Arguments, payload[i].Result)
-			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
-		} else if payload[i].Namespace == "softwares" {
-			out := windows.SoftwareParse(payload[i].Arguments, payload[i].Result)
-			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
-		} else if payload[i].Namespace == "services" {
-			out := windows.ServiceParse(payload[i].Arguments, payload[i].Result)
-			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
-		} else if payload[i].Namespace == "shares" {
-			out := windows.ShareParse(payload[i].Arguments, payload[i].Result)
-			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
-		} else if payload[i].Namespace == "processes" {
-			out := windows.ProcessParse(payload[i].Arguments, payload[i].Result)
-			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
-		} else if payload[i].Namespace == "policies" {
-			out := windows.PolicyParse(payload[i].Arguments, payload[i].Result)
-			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
-		} else if payload[i].Namespace == "profiles" {
-			out := windows.ProfileParse(payload[i].Arguments, payload[i].Result)
-			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
-		} else if payload[i].Namespace == "updates" {
-			out := windows.UpdateParse(payload[i].Arguments, payload[i].Result)
-			fmt.Printf("Namespace %s | Command %s | Output: %t\n", payload[i].Namespace, payload[i].Arguments, out)
-		} else {
-			// bugsnag.Notify(fmt.Errorf("n(%s) does not exist", payload[i].Namespace))
-			fmt.Printf("Unrecognized Namespace: %s\n", payload[i].Namespace)
+
+		if payload[i].GetRule.Space == "files" {
+			// files rule implementation
+			if payload[i].RuleAction == "exists" {
+				// exists
+				result := cross.FileExists(getParameters(payload[i].Parameters, "path").(string))
+				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
+			} else if payload[i].RuleAction == "does_not_exist" {
+				// negate exists
+				result := !cross.FileExists(getParameters(payload[i].Parameters, "path").(string))
+				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
+			} else if payload[i].RuleAction == "hash" {
+				str, err := cross.FileHash(getParameters(payload[i].Parameters, "path").(string))
+				if err != nil {
+					// hashing error
+					printDebug(payload[i].GetRule.Space, payload[i].ID, false)
+				} else {
+					// no error
+					result := str == getParameters(payload[i].Parameters, "hash").(string)
+					printDebug(payload[i].GetRule.Space, payload[i].ID, result)
+				}
+			}
+			// end files
+		} else if payload[i].GetRule.Space == "hosts" {
+			// hosts rule implementation
+			if payload[i].RuleAction == "ip_exists" {
+				// ip address exists
+				result := cross.HostIpExist(getParameters(payload[i].Parameters, "ip").(string))
+				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
+			} else if payload[i].RuleAction == "ip_does_not_exist" {
+				// ip address does not exist
+				result := !cross.HostIpExist(getParameters(payload[i].Parameters, "ip").(string))
+				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
+			} else if payload[i].RuleAction == "host_exist" {
+				// host exists
+				result := cross.HostExist(getParameters(payload[i].Parameters, "ip").(string))
+				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
+			} else if payload[i].RuleAction == "host_does_not_exist" {
+				// host does not exist
+				result := !cross.HostExist(getParameters(payload[i].Parameters, "ip").(string))
+				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
+			}
+			// end hosts
+		} else if payload[i].GetRule.Space == "users" {
+			// users rule implementation
+			if payload[i].RuleAction == "exists" {
+				result := cross.UserExist(getParameters(payload[i].Parameters, "username").(string))
+				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
+			} else if payload[i].RuleAction == "does_not_exist" {
+				result := !cross.UserExist(getParameters(payload[i].Parameters, "username").(string))
+				printDebug(payload[i].GetRule.Space, payload[i].ID, result)
+			}
+			// end users
 		}
 	}
-
-	web.Clean()
 }
