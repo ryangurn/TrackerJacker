@@ -4,6 +4,7 @@ import (
 	"TrackerJacker/core/enc"
 	"TrackerJacker/core/os/cross"
 	"TrackerJacker/core/parsing"
+	"TrackerJacker/core/submission"
 	"fmt"
 	"github.com/bugsnag/bugsnag-go"
 	"github.com/joho/godotenv"
@@ -27,10 +28,7 @@ func parsePayload() parsing.PayloadType {
 	return payload
 }
 
-func printDebug(space string, id int, result bool) {
-	fmt.Printf("Space: %s | ID: %d | Output: %t\n", space, id, result)
-}
-
+// todo: work on verbose a bit more
 func main() {
 	// todo: wait for the error to be resolved before starting
 	// (ideally this will be when another program executes and creates the .env file)
@@ -61,12 +59,14 @@ func main() {
 			// files rule implementation
 			if payload.GetAction(i) == "exists" {
 				// exists
-				result := cross.FileExists(payload.GetParameter(i, "path"))
+				result, data := cross.FileExists(payload.GetParameter(i, "path"))
 				payload.DebugPrint(i, result)
+				submission.Send(data, result, payload[i].ID)
 			} else if payload.GetAction(i) == "does_not_exist" {
 				// negate exists
-				result := !cross.FileExists(payload.GetParameter(i, "path"))
-				payload.DebugPrint(i, result)
+				result, data := cross.FileExists(payload.GetParameter(i, "path"))
+				payload.DebugPrint(i, !result)
+				submission.Send(data, !result, payload[i].ID)
 			} else if payload.GetAction(i) == "hash" {
 				str, err := cross.FileHash(payload.GetParameter(i, "path"))
 				if err != nil {
@@ -76,6 +76,7 @@ func main() {
 					// no error
 					result := str == payload.GetParameter(i, "hash")
 					payload.DebugPrint(i, result)
+					submission.Send(str, result, payload[i].ID)
 				}
 			}
 			// end files
@@ -83,30 +84,36 @@ func main() {
 			// hosts rule implementation
 			if payload.GetAction(i) == "ip_exists" {
 				// ip address exists
-				result := cross.HostIpExist(payload.GetParameter(i, "ip"))
+				result, data := cross.HostIpExist(payload.GetParameter(i, "ip"))
 				payload.DebugPrint(i, result)
+				submission.Send(data, result, payload[i].ID)
 			} else if payload.GetAction(i) == "ip_does_not_exist" {
 				// ip address does not exist
-				result := !cross.HostIpExist(payload.GetParameter(i, "ip"))
-				payload.DebugPrint(i, result)
+				result, data := cross.HostIpExist(payload.GetParameter(i, "ip"))
+				payload.DebugPrint(i, !result)
+				submission.Send(data, !result, payload[i].ID)
 			} else if payload.GetAction(i) == "host_exist" {
 				// host exists
-				result := cross.HostExist(payload.GetParameter(i, "host"))
+				result, data := cross.HostExist(payload.GetParameter(i, "host"))
 				payload.DebugPrint(i, result)
+				submission.Send(data, result, payload[i].ID)
 			} else if payload.GetAction(i) == "host_does_not_exist" {
 				// host does not exist
-				result := !cross.HostExist(payload.GetParameter(i, "host"))
-				payload.DebugPrint(i, result)
+				result, data := cross.HostExist(payload.GetParameter(i, "host"))
+				payload.DebugPrint(i, !result)
+				submission.Send(data, !result, payload[i].ID)
 			}
 			// end hosts
 		} else if payload.GetSpace(i) == "users" {
 			// users rule implementation
 			if payload.GetAction(i) == "exists" {
-				result := cross.UserExist(payload.GetParameter(i, "username"))
+				result, data := cross.UserExist(payload.GetParameter(i, "username"))
 				payload.DebugPrint(i, result)
+				submission.Send(data, result, payload[i].ID)
 			} else if payload.GetAction(i) == "does_not_exist" {
-				result := !cross.UserExist(payload.GetParameter(i, "username"))
-				payload.DebugPrint(i, result)
+				result, data := cross.UserExist(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, !result)
+				submission.Send(data, !result, payload[i].ID)
 			}
 			// end users
 		}
