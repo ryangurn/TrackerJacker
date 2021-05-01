@@ -1,7 +1,6 @@
 package windows
 
 import (
-	"fmt"
 	wapi "github.com/iamacarpet/go-win64api"
 	"strconv"
 	"time"
@@ -106,36 +105,6 @@ func SoftwareMeta(software string, key string, value interface{}) (retBool bool)
 				}
 			}
 		}
-	}
-
-	return
-}
-
-func SoftwareParse(args []string, result interface{}) (retBool bool) {
-	retBool = false
-
-	if len(args) < 1 {
-		return
-	}
-
-	if args[0] == "exist" {
-		if len(args) != 2 {
-			return
-		}
-
-		if SoftwareExist(args[1]) == result {
-			retBool = true
-		}
-	} else if args[0] == "meta" {
-		if len(args) != 4 {
-			return
-		}
-		if SoftwareMeta(args[1], args[2], args[3]) == result {
-			retBool = true
-		}
-	} else {
-		fmt.Printf("Unrecognized Command: %s\n", args[0])
-		return
 	}
 
 	return

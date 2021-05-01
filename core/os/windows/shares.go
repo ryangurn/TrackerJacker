@@ -3,7 +3,6 @@ package windows
 import (
 	"TrackerJacker/core"
 	"encoding/json"
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -84,30 +83,6 @@ func ShareMeta(share string, key string, value interface{}) (retBool bool) {
 				}
 			}
 		}
-	}
-
-	return
-}
-
-func ShareParse(args []string, result interface{}) (retBool bool) {
-	retBool = false
-
-	if len(args) < 1 {
-		return
-	}
-	if args[0] == "exist" {
-		if ShareExist(args[1]) == result {
-			retBool = true
-			return
-		}
-	} else if args[0] == "meta" {
-		if ShareMeta(args[1], args[2], args[3]) == result {
-			retBool = true
-			return
-		}
-	} else {
-		fmt.Printf("Unrecognized Command: %s\n", args[0])
-		return
 	}
 
 	return

@@ -1,7 +1,6 @@
 package windows
 
 import (
-	"fmt"
 	"golang.org/x/sys/windows/registry"
 	"strconv"
 	"strings"
@@ -163,48 +162,4 @@ func PolicyValue(k registry.Key, path string, key string, value interface{}) (re
 	} else {
 		return strBool
 	}
-}
-
-func PolicyParse(args []string, result interface{}) (retBool bool) {
-	retBool = false
-
-	if len(args) != 5 {
-		return
-	}
-
-	if args[0] == "value" {
-		var key registry.Key
-		switch args[1] {
-		case "CLASSES_ROOT":
-			key = registry.CLASSES_ROOT
-			break
-		case "CURRENT_USER":
-			key = registry.CURRENT_USER
-			break
-		case "LOCAL_MACHINE":
-			key = registry.LOCAL_MACHINE
-			break
-		case "USERS":
-			key = registry.USERS
-			break
-		case "CURRENT_CONFIG":
-			key = registry.CURRENT_CONFIG
-			break
-		case "PERFORMANCE_DATA":
-			key = registry.PERFORMANCE_DATA
-			break
-		default:
-			return false
-		}
-		
-		if PolicyValue(key, args[2], args[3], args[4]) == result {
-			retBool = true
-			return
-		}
-	} else {
-		fmt.Printf("Unrecognized Command: %s\n", args[0])
-		return
-	}
-	
-	return
 }

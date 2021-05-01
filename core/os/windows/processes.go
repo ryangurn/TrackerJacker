@@ -1,7 +1,6 @@
 package windows
 
 import (
-	"fmt"
 	wapi "github.com/iamacarpet/go-win64api"
 )
 
@@ -55,39 +54,6 @@ func ProcessMeta(processFullPath string, key string, value interface{}) (retBool
 				}
 			}
 		}
-	}
-
-	return
-}
-
-func ProcessParse(args []string, result interface{}) (retBool bool) {
-	retBool = false
-
-	if len(args) < 2 {
-		return
-	}
-
-	if args[0] == "exist" {
-		if len(args) != 2 {
-			return
-		}
-
-		if ProcessExist(args[1]) == result {
-			retBool = true
-			return
-		}
-	} else if args[0] == "meta" {
-		if len(args) != 4 {
-			return
-		}
-
-		if ProcessMeta(args[1], args[2], args[3]) == result {
-			retBool = true
-			return
-		}
-	} else {
-		fmt.Printf("Unrecognized Command: %s\n", args[0])
-		return
 	}
 
 	return
