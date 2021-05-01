@@ -11,14 +11,14 @@ import (
 	"os"
 )
 
-func hash(key string) string {
+func Hash(key string) string {
 	hash := md5.New()
 	hash.Write([]byte(key))
 	return hex.EncodeToString(hash.Sum(nil))
 }
 
 func Encrypt(data []byte, passphrase string) []byte {
-	block, _ := aes.NewCipher([]byte(hash(passphrase)))
+	block, _ := aes.NewCipher([]byte(Hash(passphrase)))
 	gcm, err := cipher.NewGCM(block)
 	if err != nil {
 		panic(err.Error())
@@ -32,7 +32,7 @@ func Encrypt(data []byte, passphrase string) []byte {
 }
 
 func Decrypt(data []byte, passphrase string) []byte {
-	key := []byte(hash(passphrase))
+	key := []byte(Hash(passphrase))
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		panic(err.Error())
