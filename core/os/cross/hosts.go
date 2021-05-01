@@ -1,10 +1,11 @@
 package cross
 
 import (
+	"encoding/json"
 	"github.com/goodhosts/hostsfile"
 )
 
-func HostExist(desiredHost string) (retBool bool) {
+func HostExist(desiredHost string) (retBool bool, retData string) {
 	retBool = false
 	hosts, _ := hostsfile.NewHosts()
 
@@ -13,6 +14,9 @@ func HostExist(desiredHost string) (retBool bool) {
 			for _, host := range line.Hosts {
 				if host == desiredHost {
 					retBool = true
+					if out, err := json.Marshal(host); err == nil {
+						retData = string(out)
+					}
 				}
 			}
 		}
@@ -20,7 +24,7 @@ func HostExist(desiredHost string) (retBool bool) {
 	return
 }
 
-func HostIpExist(desiredIp string) (retBool bool) {
+func HostIpExist(desiredIp string) (retBool bool, retData string) {
 	retBool = false
 	hosts, _ := hostsfile.NewHosts()
 
@@ -28,6 +32,9 @@ func HostIpExist(desiredIp string) (retBool bool) {
 		if line.Hosts != nil && line.IP != "" {
 			if line.IP == desiredIp {
 				retBool = true
+				if out, err := json.Marshal(line); err == nil {
+					retData = string(out)
+				}
 			}
 		}
 	}

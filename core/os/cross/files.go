@@ -3,15 +3,21 @@ package cross
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"encoding/json"
 	"io"
 	"os"
 )
 
 
-func FileExists(path string) (retBool bool) {
+func FileExists(path string) (retBool bool, retData string) {
 	retBool = false
-	if _, err := os.Stat(path); err == nil {
+	retData = ""
+	if data, err := os.Stat(path); err == nil {
 		retBool = true
+		// marshal data
+		if out, err := json.Marshal(data); err == nil {
+			return retBool, string(out)
+		}
 	}
 	return
 }
