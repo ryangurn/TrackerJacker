@@ -15,4 +15,4 @@ tmp.zip
 gin.log
 
 # env
-.env
+*.env
