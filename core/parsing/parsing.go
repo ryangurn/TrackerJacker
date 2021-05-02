@@ -63,3 +63,26 @@ func ParsePayload(str []byte, payload *PayloadType) *PayloadType {
 	json.Unmarshal([]byte(str), &payload)
 	return payload
 }
+
+type InitialAuthorization struct {
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Image     struct {
+		ID              int         `json:"id"`
+		OperatingSystem int         `json:"operating_system"`
+		Name            string      `json:"name"`
+		Creator         interface{} `json:"creator"`
+		Status          int         `json:"status"`
+		Method          int         `json:"method"`
+		CreatedAt       time.Time   `json:"created_at"`
+		UpdatedAt       time.Time   `json:"updated_at"`
+	} `json:"image"`
+}
+
+func (auth InitialAuthorization) GetID() int {
+	return auth.Image.ID
+}
+
+func (auth InitialAuthorization) GetMethod() int {
+	return auth.Image.Method
+}
