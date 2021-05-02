@@ -8,15 +8,14 @@ import (
 	"fmt"
 	"github.com/bugsnag/bugsnag-go"
 	"github.com/joho/godotenv"
-	"io/ioutil"
 	"os"
 )
 
 const encKey = "Password"
 const payload = "payload.txt"
 
-func generatePayload(inFile string) {
-	data, _ := ioutil.ReadFile(inFile)
+func generatePayload(data []byte) {
+	//data, _ := ioutil.ReadFile(inFile)
 	enc.EncryptFile(payload, data, encKey)
 }
 
@@ -37,9 +36,8 @@ func main() {
 		fmt.Println("Error loading env file")
 	}
 
-	bugsnagKey := os.Getenv("BUGSNAG_KEY")
-
 	// setup bugsnag
+	bugsnagKey := os.Getenv("BUGSNAG_KEY")
 	bugsnag.Configure(bugsnag.Configuration{
 		APIKey:          bugsnagKey,
 		ReleaseStage:    "alpha",
@@ -47,8 +45,10 @@ func main() {
 		ProjectPackages: []string{"main"},
 	})
 
+	// get check data
+	checks := submission.GetPayload()
 	// generate the payload
-	generatePayload("input.json")
+	generatePayload(checks)
 	// get the payload
 	payload := parsePayload()
 
@@ -60,13 +60,13 @@ func main() {
 			if payload.GetAction(i) == "exists" {
 				// exists
 				result, data := cross.FileExists(payload.GetParameter(i, "path"))
-				payload.DebugPrint(i, result)
-				submission.Send(data, result, payload[i].ID)
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID) // send score
 			} else if payload.GetAction(i) == "does_not_exist" {
 				// negate exists
 				result, data := cross.FileExists(payload.GetParameter(i, "path"))
-				payload.DebugPrint(i, !result)
-				submission.Send(data, !result, payload[i].ID)
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID) // send score
 			} else if payload.GetAction(i) == "hash" {
 				str, err := cross.FileHash(payload.GetParameter(i, "path"))
 				if err != nil {
@@ -75,8 +75,8 @@ func main() {
 				} else {
 					// no error
 					result := str == payload.GetParameter(i, "hash")
-					payload.DebugPrint(i, result)
-					submission.Send(str, result, payload[i].ID)
+					payload.DebugPrint(i, result) // debug print
+					submission.Send(str, result, payload[i].ID) // send score
 				}
 			}
 			// end files
@@ -85,35 +85,35 @@ func main() {
 			if payload.GetAction(i) == "ip_exists" {
 				// ip address exists
 				result, data := cross.HostIpExist(payload.GetParameter(i, "ip"))
-				payload.DebugPrint(i, result)
-				submission.Send(data, result, payload[i].ID)
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID) // send score
 			} else if payload.GetAction(i) == "ip_does_not_exist" {
 				// ip address does not exist
 				result, data := cross.HostIpExist(payload.GetParameter(i, "ip"))
-				payload.DebugPrint(i, !result)
-				submission.Send(data, !result, payload[i].ID)
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID) // send score
 			} else if payload.GetAction(i) == "host_exist" {
 				// host exists
 				result, data := cross.HostExist(payload.GetParameter(i, "host"))
-				payload.DebugPrint(i, result)
-				submission.Send(data, result, payload[i].ID)
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID) // send score
 			} else if payload.GetAction(i) == "host_does_not_exist" {
 				// host does not exist
 				result, data := cross.HostExist(payload.GetParameter(i, "host"))
-				payload.DebugPrint(i, !result)
-				submission.Send(data, !result, payload[i].ID)
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID) // send score
 			}
 			// end hosts
 		} else if payload.GetSpace(i) == "users" {
 			// users rule implementation
 			if payload.GetAction(i) == "exists" {
 				result, data := cross.UserExist(payload.GetParameter(i, "username"))
-				payload.DebugPrint(i, result)
-				submission.Send(data, result, payload[i].ID)
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID) // send score
 			} else if payload.GetAction(i) == "does_not_exist" {
 				result, data := cross.UserExist(payload.GetParameter(i, "username"))
-				payload.DebugPrint(i, !result)
-				submission.Send(data, !result, payload[i].ID)
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID) // send score
 			}
 			// end users
 		}
