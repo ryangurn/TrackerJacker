@@ -3,8 +3,7 @@ package submission
 import (
 	"TrackerJacker/core/parsing"
 	"encoding/json"
-	"fmt"
-	"github.com/gen2brain/beeep"
+	"errors"
 	"github.com/gen2brain/dlgs"
 	"github.com/joho/godotenv"
 	"io/ioutil"
@@ -21,7 +20,7 @@ func Initialize(baseURL string) error {
 	// get image based on auth token
 	req, err := http.NewRequest("POST", baseURL + "/api/user/auth", nil)
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
 
 	// add bearer
@@ -31,14 +30,14 @@ func Initialize(baseURL string) error {
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
 	defer res.Body.Close() // close the body
 
 	// read output
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
 
 	switch res.StatusCode {
@@ -53,22 +52,20 @@ func Initialize(baseURL string) error {
 		env, _ := godotenv.Unmarshal("AUTH_TOKEN="+authentication+"\nBUGSNAG_KEY=1073d19819b48d408710876c02dd126b\nSERVER="+baseURL+"\nIMAGE="+id+"\nSCORING_METHOD="+method)
 		godotenv.Write(env, "./.env")
 
-		err = beeep.Alert("Init Completed", "TrackerJacker has successfully completed initialization", "")
+		err := godotenv.Load()
 		if err != nil {
 			return err
 		}
+
+		dlgs.Info("Init Completed", "TrackerJacker has successfully completed initialization")
 		break
 	case 500:
-		err = beeep.Alert("Init Failed", "Unable to start, authentication token not tied to image yet.", "")
-		if err != nil {
-			return err
-		}
+		dlgs.Warning("Init Failed", "Unable to start, authentication token not tied to image yet.")
+		return errors.New("Unable to start")
 		break
 	case 401:
-		err = beeep.Alert("Init Failed", "Authentication token not valid", "")
-		if err != nil {
-			return err
-		}
+		dlgs.Warning("Init Failed", "Authentication token not valid")
+		return errors.New("Auth token invalid")
 		break
 	}
 
