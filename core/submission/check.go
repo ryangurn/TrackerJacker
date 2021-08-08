@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func GetPayload() []byte {
+func GetPayload() ([]byte, error) {
 	// get image & auth
 	auth := os.Getenv("AUTH_TOKEN")
 	image := os.Getenv("IMAGE")
@@ -36,5 +36,5 @@ func GetPayload() []byte {
 		fmt.Println(err)
 	}
 
-	return body
+	return body, nil
 }

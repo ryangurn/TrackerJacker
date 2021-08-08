@@ -13,7 +13,7 @@ import (
 
 const encKey = "Password"
 const payload = "payload.txt"
-const baseURL = "https://ef8b4bbb35a3.ngrok.io"
+const baseURL = "http://cste.test"
 
 func generatePayload(data []byte) {
 	//data, _ := ioutil.ReadFile(inFile)
@@ -51,7 +51,11 @@ func main() {
 	})
 
 	// get check data
-	checks := submission.GetPayload()
+	checks, err := submission.GetPayload()
+	if err != nil {
+		return
+	}
+	fmt.Println(string(checks))
 	// generate the payload
 	generatePayload(checks)
 	// get the payload
