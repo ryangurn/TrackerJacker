@@ -12,7 +12,7 @@ import (
 )
 
 // Send example: submission.Send(data, result, payload[i].ID)
-func  Send(data string, result bool, check int) {
+func Send(data string, result bool, check int) {
 	// get method from env
 	method := os.Getenv("SCORING_METHOD")
 	baseURL := os.Getenv("SERVER")

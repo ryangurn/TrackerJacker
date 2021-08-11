@@ -55,7 +55,10 @@ func main() {
 	if err != nil {
 		return
 	}
-	fmt.Println(string(checks))
+
+	// print payload information
+	//fmt.Println(string(checks))
+
 	// generate the payload
 	generatePayload(checks)
 	// get the payload
