@@ -7,6 +7,7 @@ import (
 	"TrackerJacker/core/submission"
 	"fmt"
 	"github.com/bugsnag/bugsnag-go"
+	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	"os"
 )
@@ -30,8 +31,6 @@ func parsePayload() parsing.PayloadType {
 
 // todo: work on verbose a bit more
 func main() {
-	// todo: wait for the error to be resolved before starting
-	// (ideally this will be when another program executes and creates the .env file)
 	err := godotenv.Load()
 	if err != nil {
 		fmt.Println("Error loading env file")
@@ -64,6 +63,12 @@ func main() {
 	// get the payload
 	payload := parsePayload()
 
+	// set batch value
+	batch, err := uuid.NewUUID()
+	if err != nil {
+		return
+	}
+
 	// loop through payload items
 	for i := 0; i < len(payload); i++ {
 
@@ -73,12 +78,12 @@ func main() {
 				// exists
 				result, data := cross.FileExists(payload.GetParameter(i, "path"))
 				payload.DebugPrint(i, result) // debug print
-				submission.Send(data, result, payload[i].ID) // send score
+				submission.Send(data, result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "does_not_exist" {
 				// negate exists
 				result, data := cross.FileExists(payload.GetParameter(i, "path"))
 				payload.DebugPrint(i, !result) // debug print
-				submission.Send(data, !result, payload[i].ID) // send score
+				submission.Send(data, !result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "hash" {
 				str, err := cross.FileHash(payload.GetParameter(i, "path"))
 				if err != nil {
@@ -88,7 +93,7 @@ func main() {
 					// no error
 					result := str == payload.GetParameter(i, "hash")
 					payload.DebugPrint(i, result) // debug print
-					submission.Send(str, result, payload[i].ID) // send score
+					submission.Send(str, result, payload[i].ID, batch) // send score
 				}
 			}
 			// end files
@@ -98,22 +103,22 @@ func main() {
 				// ip address exists
 				result, data := cross.HostIpExist(payload.GetParameter(i, "ip"))
 				payload.DebugPrint(i, result) // debug print
-				submission.Send(data, result, payload[i].ID) // send score
+				submission.Send(data, result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "ip_does_not_exist" {
 				// ip address does not exist
 				result, data := cross.HostIpExist(payload.GetParameter(i, "ip"))
 				payload.DebugPrint(i, !result) // debug print
-				submission.Send(data, !result, payload[i].ID) // send score
+				submission.Send(data, !result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "host_exist" {
 				// host exists
 				result, data := cross.HostExist(payload.GetParameter(i, "host"))
 				payload.DebugPrint(i, result) // debug print
-				submission.Send(data, result, payload[i].ID) // send score
+				submission.Send(data, result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "host_does_not_exist" {
 				// host does not exist
 				result, data := cross.HostExist(payload.GetParameter(i, "host"))
 				payload.DebugPrint(i, !result) // debug print
-				submission.Send(data, !result, payload[i].ID) // send score
+				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end hosts
 		} else if payload.GetSpace(i) == "users" {
@@ -121,13 +126,14 @@ func main() {
 			if payload.GetAction(i) == "exists" {
 				result, data := cross.UserExist(payload.GetParameter(i, "username"))
 				payload.DebugPrint(i, result) // debug print
-				submission.Send(data, result, payload[i].ID) // send score
+				submission.Send(data, result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "does_not_exist" {
 				result, data := cross.UserExist(payload.GetParameter(i, "username"))
 				payload.DebugPrint(i, !result) // debug print
-				submission.Send(data, !result, payload[i].ID) // send score
+				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end users
 		}
 	}
+	batch, err = uuid.NewUUID()
 }

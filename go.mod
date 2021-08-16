@@ -11,6 +11,7 @@ require (
 	github.com/gen2brain/dlgs v0.0.0-20210406143744-f512297a108e // indirect
 	github.com/gofrs/uuid v3.3.0+incompatible // indirect
 	github.com/goodhosts/hostsfile v0.0.7
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20210420193930-a4630ec28c79 // indirect
 	github.com/iamacarpet/go-win64api v0.0.0-20210311141720-fe38760bed28
 	github.com/joho/godotenv v1.3.0

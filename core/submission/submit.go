@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/google/uuid"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -12,7 +13,7 @@ import (
 )
 
 // Send example: submission.Send(data, result, payload[i].ID)
-func Send(data string, result bool, check int) {
+func Send(data string, result bool, check int, uuid uuid.UUID) {
 	// get method from env
 	method := os.Getenv("SCORING_METHOD")
 	baseURL := os.Getenv("SERVER")
@@ -48,6 +49,7 @@ func Send(data string, result bool, check int) {
 	writer := multipart.NewWriter(requestBody)
 	writer.WriteField("check_id", strconv.FormatInt(int64(check), 10))
 	writer.WriteField("fingerprint", fingerprint)
+	writer.WriteField("uuid", uuid.String())
 	// only send the correct information based on the method (0 = result, otherwise = json)
 	switch method {
 	case "0":
