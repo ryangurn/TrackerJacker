@@ -13,10 +13,10 @@ require (
 	github.com/goodhosts/hostsfile v0.0.7
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20210420193930-a4630ec28c79 // indirect
-	github.com/iamacarpet/go-win64api v0.0.0-20210311141720-fe38760bed28
+	github.com/iamacarpet/go-win64api v0.0.0-20210719094426-0fa5b6bd91f5
 	github.com/joho/godotenv v1.3.0
 	github.com/kardianos/osext v0.0.0-20190222173326-2bc1f35cddc0 // indirect
 	github.com/kr/pretty v0.2.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	golang.org/x/sys v0.0.0-20210403161142-5e06dd20ab57
+	golang.org/x/sys v0.0.0-20210423082822-04245dca01da
 )

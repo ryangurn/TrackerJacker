@@ -1,66 +1,106 @@
 package windows
 
 import (
+	"encoding/json"
 	wapi "github.com/iamacarpet/go-win64api"
 	"strconv"
 )
 
-func BitlockerDriveExist(drive string) (retBool bool) {
+func BitlockerDriveLocked(drive string) (retBool bool, retData string) {
 	retBool = false
-
+	retData = ""
 	info, err := wapi.GetBitLockerRecoveryInfoForDrive(drive)
 	if err != nil {
 		return
 	}
 
-	if info.DriveLetter == drive {
+	if info.ProtectionStatus == 2 {
 		retBool = true
-		return
+		if out, err := json.Marshal(info); err == nil {
+			return retBool, string(out)
+		}
 	}
 
 	return
 }
 
-func BitlockerDriveMeta(drive string, key string, value interface{}) (retBool bool) {
+func BitlockerDeviceID(drive string, id string) (retBool bool, retData string) {
 	retBool = false
-
+	retData = ""
 	info, err := wapi.GetBitLockerRecoveryInfoForDrive(drive)
 	if err != nil {
-		 return
+		return
 	}
 
-	if info.DriveLetter == drive {
-		if key == "DeviceID" {
-			if info.DeviceID == value.(string) {
-				retBool = true
-				return
-			}
-		} else if key == "PersistentVolumeID" {
-			if info.PersistentVolumeID == value.(string) {
-				retBool = true
-				return
-			}
-		} else if key == "ConversionStatus" {
-			us, err := strconv.ParseInt(value.(string), 10, 32)
-			if err != nil {
-				return
-			}
-			if info.ConversionStatus == int32(us) {
-				retBool = true
-				return
-			}
-		} else if key == "ProtectionStatus" {
-			us, err := strconv.ParseInt(value.(string), 10, 32)
-			if err != nil {
-				return
-			}
-
-			if info.ProtectionStatus == int32(us) {
-				retBool = true
-				return
-			}
+	if info.DeviceID == id {
+		retBool = true
+		if out, err := json.Marshal(info); err == nil {
+			return retBool, string(out)
 		}
 	}
 
+	return
+}
+
+func BitlockerPersistentVolumeID(drive string, id string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+	info, err := wapi.GetBitLockerRecoveryInfoForDrive(drive)
+	if err != nil {
+		return
+	}
+
+	if info.PersistentVolumeID == id {
+		retBool = true
+		if out, err := json.Marshal(info); err == nil {
+			return retBool, string(out)
+		}
+	}
+
+	return
+}
+
+func BitlockerConversionStatus(drive string, status string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+	info, err := wapi.GetBitLockerRecoveryInfoForDrive(drive)
+	if err != nil {
+		return
+	}
+
+	val, err := strconv.ParseUint(status, 10, 32)
+	if err != nil {
+		return
+	}
+
+	if info.ConversionStatus == uint32(val) {
+		retBool = true
+		if out, err := json.Marshal(info); err == nil {
+			return retBool, string(out)
+		}
+	}
+
+	return
+}
+
+func BitlockerProtectionStatus(drive string, status string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+	info, err := wapi.GetBitLockerRecoveryInfoForDrive(drive)
+	if err != nil {
+		return
+	}
+
+	val, err := strconv.ParseUint(status, 10, 32)
+	if err != nil {
+		return
+	}
+
+	if info.ProtectionStatus == uint32(val) {
+		retBool = true
+		if out, err := json.Marshal(info); err == nil {
+			return retBool, string(out)
+		}
+	}
 	return
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"TrackerJacker/core/enc"
 	"TrackerJacker/core/os/cross"
+	"TrackerJacker/core/os/windows"
 	"TrackerJacker/core/parsing"
 	"TrackerJacker/core/submission"
 	"fmt"
@@ -133,6 +134,50 @@ func main() {
 				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end users
+		} else if payload.GetSpace(i) == "bitlocker" {
+			// bitlocker rule implementation
+			if payload.GetAction(i) == "drive_locked" {
+				result, data := windows.BitlockerDriveLocked(payload.GetParameter(i, "drive"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "drive_unlocked" {
+				result, data := windows.BitlockerDriveLocked(payload.GetParameter(i, "drive"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "device_id_is" {
+				result, data := windows.BitlockerDeviceID(payload.GetParameter(i, "drive"), payload.GetParameter(i, "device"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "device_id_is_not" {
+				result, data := windows.BitlockerDeviceID(payload.GetParameter(i, "drive"), payload.GetParameter(i, "device"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "persistent_volume_id_is" {
+				result, data := windows.BitlockerPersistentVolumeID(payload.GetParameter(i, "drive"), payload.GetParameter(i, "volume"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "persistent_volume_id_is_not" {
+				result, data := windows.BitlockerPersistentVolumeID(payload.GetParameter(i, "drive"), payload.GetParameter(i, "volume"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "conversion_status_is" {
+				result, data := windows.BitlockerConversionStatus(payload.GetParameter(i, "drive"), payload.GetParameter(i, "status"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "conversion_status_is_not" {
+				result, data := windows.BitlockerConversionStatus(payload.GetParameter(i, "drive"), payload.GetParameter(i, "status"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "protection_status_is" {
+				result, data := windows.BitlockerProtectionStatus(payload.GetParameter(i, "drive"), payload.GetParameter(i, "status"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "protection_status_is_not" {
+				result, data := windows.BitlockerProtectionStatus(payload.GetParameter(i, "drive"), payload.GetParameter(i, "status"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			}
+			// end bitlocker
 		}
 	}
 	batch, err = uuid.NewUUID()
