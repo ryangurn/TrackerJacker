@@ -1,277 +1,60 @@
 package windows
 
 import (
-	"TrackerJacker/core"
 	"encoding/json"
-	"fmt"
+	wapi "github.com/iamacarpet/go-win64api"
 	"strconv"
 )
 
-type Firewall struct {
-	CimClass struct {
-		CimSuperClassName   string `json:"CimSuperClassName"`
-		CimSuperClass       string `json:"CimSuperClass"`
-		CimClassProperties  string `json:"CimClassProperties"`
-		CimClassQualifiers  string `json:"CimClassQualifiers"`
-		CimClassMethods     string `json:"CimClassMethods"`
-		CimSystemProperties string `json:"CimSystemProperties"`
-	} `json:"CimClass"`
-	CimInstanceProperties []string `json:"CimInstanceProperties"`
-	CimSystemProperties   struct {
-		Namespace  string      `json:"Namespace"`
-		ServerName string      `json:"ServerName"`
-		ClassName  string      `json:"ClassName"`
-		Path       interface{} `json:"Path"`
-	} `json:"CimSystemProperties"`
-	Profile                         string      `json:"Profile"`
-	Enabled                         int         `json:"Enabled"`
-	DefaultInboundAction            int         `json:"DefaultInboundAction"`
-	DefaultOutboundAction           int         `json:"DefaultOutboundAction"`
-	AllowInboundRules               int         `json:"AllowInboundRules"`
-	AllowLocalFirewallRules         int         `json:"AllowLocalFirewallRules"`
-	AllowLocalIPsecRules            int         `json:"AllowLocalIPsecRules"`
-	AllowUserApps                   int         `json:"AllowUserApps"`
-	AllowUserPorts                  int         `json:"AllowUserPorts"`
-	AllowUnicastResponseToMulticast int         `json:"AllowUnicastResponseToMulticast"`
-	NotifyOnListen                  int         `json:"NotifyOnListen"`
-	EnableStealthModeForIPsec       int         `json:"EnableStealthModeForIPsec"`
-	LogMaxSizeKilobytes             int         `json:"LogMaxSizeKilobytes"`
-	LogAllowed                      int         `json:"LogAllowed"`
-	LogBlocked                      int         `json:"LogBlocked"`
-	LogIgnored                      int         `json:"LogIgnored"`
-	Caption                         interface{} `json:"Caption"`
-	Description                     interface{} `json:"Description"`
-	ElementName                     string      `json:"ElementName"`
-	InstanceID                      string      `json:"InstanceID"`
-	DisabledInterfaceAliases        []string    `json:"DisabledInterfaceAliases"`
-	LogFileName                     string      `json:"LogFileName"`
-	Name                            string      `json:"Name"`
-	PSComputerName                  interface{} `json:"PSComputerName"`
-}
-
-func FirewallEnabled(firewall string) (retBool bool) {
+func FirewallEnabled(profile string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
+	val, err := strconv.ParseInt(profile, 10, 32)
+	if err != nil {
+		return
+	}
 
-	var firewalls []Firewall
-	cmd := core.Command("Get-NetFirewallProfile -All | convertto-json")
-	json.Unmarshal([]byte(cmd), &firewalls)
+	res, err := wapi.FirewallIsEnabled(int32(val))
+	if err != nil {
+		return
+	}
 
-	for _, v := range firewalls {
-		if v.Name == firewall {
-			retBool = true
-			return
-		}
+	retBool = res
+	if out, err := json.Marshal(res); err == nil {
+		return retBool, string(out)
 	}
 
 	return
 }
 
-func FirewallMeta(firewall string, key string, value interface{}) (retBool bool) {
+func FirewallProfile(firewall string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
-	var firewalls []Firewall
-	cmd := core.Command("Get-NetFirewallProfile -All | convertto-json")
-	json.Unmarshal([]byte(cmd), &firewalls)
-
-	// find and store the firewall we are dealing with
-	var tmp Firewall
-	for _, v := range firewalls {
-		if v.Name == firewall {
-			tmp = v
-		}
-	}
-
-	// error if tmp is null
-	if tmp.Name == "" {
+	profiles, err := wapi.FirewallCurrentProfiles()
+	if err != nil {
 		return
 	}
 
-	if key == "Profile" {
-		if tmp.Profile == value.(string) {
-			retBool = true
-			return
+	switch firewall {
+	case "Public":
+		retBool = profiles.Public
+		if out, err := json.Marshal(profiles); err == nil {
+			return retBool, string(out)
 		}
-	} else if key == "Enabled" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
+		break
+	case "Domain":
+		retBool = profiles.Domain
+		if out, err := json.Marshal(profiles); err == nil {
+			return retBool, string(out)
 		}
-
-		if tmp.Enabled == int(ui) {
-			retBool = true
-			return
+		break
+	case "Private":
+		retBool = profiles.Private
+		if out, err := json.Marshal(profiles); err == nil {
+			return retBool, string(out)
 		}
-	} else if key == "DefaultInboundAction" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.DefaultInboundAction == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "DefaultOutboundAction" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.DefaultOutboundAction == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "AllowInboundRules" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.AllowInboundRules == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "AllowLocalFirewallRules" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.AllowLocalFirewallRules == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "AllowLocalIPsecRules" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.AllowLocalIPsecRules == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "AllowUserApps" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.AllowUserApps == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "AllowUserPorts" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.AllowUserPorts == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "AllowUnicastResponseToMulticast" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.AllowUnicastResponseToMulticast == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "NotifyOnListen" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.NotifyOnListen == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "EnableStealthModeForIPsec" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.EnableStealthModeForIPsec == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "LogMaxSizeKilobytes" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.LogMaxSizeKilobytes == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "LogAllowed" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.LogAllowed == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "LogBlocked" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.LogBlocked == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "LogIgnored" {
-		ui, err := strconv.ParseInt(value.(string), 10, 64)
-		if err != nil {
-			return
-		}
-
-		if tmp.LogIgnored == int(ui) {
-			retBool = true
-			return
-		}
-	} else if key == "Caption" {
-		fmt.Println(tmp.Caption)
-		if tmp.Caption == value {
-			retBool = true
-			return
-		}
-	} else if key == "Description" {
-		if tmp.Description == value {
-			retBool = true
-			return
-		}
-	} else if key == "ElementName" {
-		if tmp.ElementName == value.(string) {
-			retBool = true
-			return
-		}
-	} else if key == "InstanceID" {
-		if tmp.InstanceID == value.(string) {
-			retBool = true
-			return
-		}
-	} else if key == "LogFileName" {
-		if tmp.LogFileName == value.(string) {
-			retBool = true
-			return
-		}
-	} else if key == "PSComputerName" {
-		if tmp.PSComputerName == value {
-			retBool = true
-			return
-		}
+		break
 	}
 
 	return

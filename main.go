@@ -178,6 +178,26 @@ func main() {
 				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end bitlocker
+		} else if payload.GetSpace(i) == "firewall" {
+			// firewall rule implementation
+			if payload.GetAction(i) == "firewall_enabled" {
+				result, data := windows.FirewallEnabled(payload.GetParameter(i, "firewall"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "firewall_not_enabled" {
+				result, data := windows.FirewallEnabled(payload.GetParameter(i, "firewall"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "profile_is" {
+				result, data := windows.FirewallProfile(payload.GetParameter(i, "profile"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "profile_is_not" {
+				result, data := windows.FirewallProfile(payload.GetParameter(i, "profile"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			}
+			// end firewall
 		}
 	}
 	batch, err = uuid.NewUUID()
