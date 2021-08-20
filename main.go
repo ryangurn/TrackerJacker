@@ -196,6 +196,134 @@ func main() {
 				result, data := windows.FirewallProfile(payload.GetParameter(i, "profile"))
 				payload.DebugPrint(i, !result) // debug print
 				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "rule_exists" {
+				result, data := windows.FirewallRuleExists(payload.GetParameter(i, "rule"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "rule_does_not_exist" {
+				result, data := windows.FirewallRuleExists(payload.GetParameter(i, "rule"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "application_is" {
+				result, data := windows.FirewallApplication(payload.GetParameter(i, "rule"), payload.GetParameter(i, "application"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "application_is_not" {
+				result, data := windows.FirewallApplication(payload.GetParameter(i, "rule"), payload.GetParameter(i, "application"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "service_is" {
+				result, data := windows.FirewallService(payload.GetParameter(i, "rule"), payload.GetParameter(i, "service"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "service_is_not" {
+				result, data := windows.FirewallService(payload.GetParameter(i, "rule"), payload.GetParameter(i, "service"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "local_port_is" {
+				result, data := windows.FirewallLocalPort(payload.GetParameter(i, "rule"), payload.GetParameter(i, "port"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "local_port_is_not" {
+				result, data := windows.FirewallLocalPort(payload.GetParameter(i, "rule"), payload.GetParameter(i, "port"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "remote_port_is" {
+				result, data := windows.FirewallRemotePort(payload.GetParameter(i, "rule"), payload.GetParameter(i, "port"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "remote_port_is_not" {
+				result, data := windows.FirewallRemotePort(payload.GetParameter(i, "rule"), payload.GetParameter(i, "port"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "local_address_is" {
+				result, data := windows.FirewallLocalAddress(payload.GetParameter(i, "rule"), payload.GetParameter(i, "address"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "local_address_is_not" {
+				result, data := windows.FirewallLocalAddress(payload.GetParameter(i, "rule"), payload.GetParameter(i, "address"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "remote_address_is" {
+				result, data := windows.FirewallRemoteAddress(payload.GetParameter(i, "rule"), payload.GetParameter(i, "address"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "remote_address_is_not" {
+				result, data := windows.FirewallRemoteAddress(payload.GetParameter(i, "rule"), payload.GetParameter(i, "address"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "icmp_types_and_codes_is" {
+				result, data := windows.FirewallICMP(payload.GetParameter(i, "rule"), payload.GetParameter(i, "value"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "icmp_types_and_codes_is_not" {
+				result, data := windows.FirewallICMP(payload.GetParameter(i, "rule"), payload.GetParameter(i, "value"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "grouping_is" {
+				result, data := windows.FirewallGrouping(payload.GetParameter(i, "rule"), payload.GetParameter(i, "group"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "grouping_is_not" {
+				result, data := windows.FirewallGrouping(payload.GetParameter(i, "rule"), payload.GetParameter(i, "group"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "interface_type_is" {
+				result, data := windows.FirewallInterface(payload.GetParameter(i, "rule"), payload.GetParameter(i, "interface"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "interface_type_is_not" {
+				result, data := windows.FirewallInterface(payload.GetParameter(i, "rule"), payload.GetParameter(i, "interface"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "protocol_is" {
+				result, data := windows.FirewallProtocol(payload.GetParameter(i, "rule"), payload.GetParameter(i, "protocol"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "protocol_is_not" {
+				result, data := windows.FirewallProtocol(payload.GetParameter(i, "rule"), payload.GetParameter(i, "protocol"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "direction_is" {
+				result, data := windows.FirewallDirection(payload.GetParameter(i, "rule"), payload.GetParameter(i, "direction"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "direction_is_not" {
+				result, data := windows.FirewallDirection(payload.GetParameter(i, "rule"), payload.GetParameter(i, "direction"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "action_is" {
+				result, data := windows.FirewallAction(payload.GetParameter(i, "rule"), payload.GetParameter(i, "action"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "action_is_not" {
+				result, data := windows.FirewallAction(payload.GetParameter(i, "rule"), payload.GetParameter(i, "action"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "rule_profile_is" {
+				result, data := windows.FirewallRuleProfile(payload.GetParameter(i, "rule"), payload.GetParameter(i, "profile"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "rule_profile_is_not" {
+				result, data := windows.FirewallRuleProfile(payload.GetParameter(i, "rule"), payload.GetParameter(i, "profile"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "enabled_is" {
+				result, data := windows.FirewallRuleEnabled(payload.GetParameter(i, "rule"), payload.GetParameter(i, "value"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "enabled_is_not" {
+				result, data := windows.FirewallRuleEnabled(payload.GetParameter(i, "rule"), payload.GetParameter(i, "value"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "edge_traversal_is" {
+				result, data := windows.FirewallEdge(payload.GetParameter(i, "rule"), payload.GetParameter(i, "traversal"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "edge_traversal_is_not" {
+				result, data := windows.FirewallEdge(payload.GetParameter(i, "rule"), payload.GetParameter(i, "traversal"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end firewall
 		}
