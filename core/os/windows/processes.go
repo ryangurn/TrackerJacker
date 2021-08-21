@@ -1,10 +1,12 @@
 package windows
 
 import (
+	"encoding/json"
 	wapi "github.com/iamacarpet/go-win64api"
+	"strconv"
 )
 
-func ProcessExist(processFullPath string) (retBool bool) {
+func ProcessExist(executable string) (retBool bool, retData string) {
 	retBool = false
 
 	processes, err := wapi.ProcessList()
@@ -13,8 +15,11 @@ func ProcessExist(processFullPath string) (retBool bool) {
 	}
 
 	for _, p := range processes {
-		if p.Fullpath == processFullPath {
+		if p.Executable == executable {
 			retBool = true
+			if out, err := json.Marshal(p); err == nil {
+				return retBool, string(out)
+			}
 			return
 		}
 	}
@@ -22,8 +27,9 @@ func ProcessExist(processFullPath string) (retBool bool) {
 	return
 }
 
-func ProcessMeta(processFullPath string, key string, value interface{}) (retBool bool) {
+func ProcessPID(executable string, pid string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	processes, err := wapi.ProcessList()
 	if err != nil {
@@ -31,28 +37,72 @@ func ProcessMeta(processFullPath string, key string, value interface{}) (retBool
 	}
 
 	for _, p := range processes {
-		if p.Fullpath == processFullPath {
-			if key == "Pid" {
-				if p.Pid == value.(int) {
-					retBool = true
-					return
-				}
-			} else if key == "Ppid" {
-				if p.Ppid == value.(int) {
-					retBool = true
-					return
-				}
-			} else if key == "Username" {
-				if p.Username == value.(string) {
-					retBool = true
-					return
-				}
-			} else if key == "Executable" {
-				if p.Executable == value.(string) {
-					retBool = true
-					return
+		if p.Executable == executable {
+			val, err := strconv.ParseInt(pid, 10, 32)
+			if err != nil {
+				return
+			}
+
+			if p.Pid == int(val) {
+				retBool = true
+				if out, err := json.Marshal(p); err == nil {
+					return retBool, string(out)
 				}
 			}
+			return
+		}
+	}
+
+	return
+}
+
+func ProcessPPID(executable string, ppid string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+
+	processes, err := wapi.ProcessList()
+	if err != nil {
+		return
+	}
+
+	for _, p := range processes {
+		if p.Executable == executable {
+			val, err := strconv.ParseInt(ppid, 10, 32)
+			if err != nil {
+				return
+			}
+
+			if p.Ppid == int(val) {
+				retBool = true
+				if out, err := json.Marshal(p); err == nil {
+					return retBool, string(out)
+				}
+			}
+			return
+		}
+	}
+
+	return
+}
+
+func ProcessUsername(executable string, username string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+
+	processes, err := wapi.ProcessList()
+	if err != nil {
+		return
+	}
+
+	for _, p := range processes {
+		if p.Executable == executable {
+			if p.Username == username {
+				retBool = true
+				if out, err := json.Marshal(p); err == nil {
+					return retBool, string(out)
+				}
+			}
+			return
 		}
 	}
 

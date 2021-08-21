@@ -346,6 +346,42 @@ func main() {
 				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end groups
+		} else if payload.GetSpace(i) == "process" {
+			// process rule implementation
+			if payload.GetAction(i) == "process_exists" {
+				result, data := windows.ProcessExist(payload.GetParameter(i, "executable"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "process_does_not_exist" {
+				result, data := windows.ProcessExist(payload.GetParameter(i, "executable"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "pid_is" {
+				result, data := windows.ProcessPID(payload.GetParameter(i, "executable"), payload.GetParameter(i, "pid"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "pid_is_not" {
+				result, data := windows.ProcessPID(payload.GetParameter(i, "executable"), payload.GetParameter(i, "pid"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "ppid_is" {
+				result, data := windows.ProcessPPID(payload.GetParameter(i, "executable"), payload.GetParameter(i, "ppid"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "ppid_is_not" {
+				result, data := windows.ProcessPPID(payload.GetParameter(i, "executable"), payload.GetParameter(i, "ppid"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "username_is" {
+				result, data := windows.ProcessUsername(payload.GetParameter(i, "executable"), payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "username_is_not" {
+				result, data := windows.ProcessUsername(payload.GetParameter(i, "executable"), payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			}
+			// end process
 		}
 	}
 	batch, err = uuid.NewUUID()
