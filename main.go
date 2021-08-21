@@ -326,7 +326,7 @@ func main() {
 				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end firewall
-		} else if payload.GetSpace(i) == "groups" {
+		} else if payload.GetSpace(i) == "group" {
 			// groups rule implementation
 			if payload.GetAction(i) == "group_exists" {
 				result, data := windows.GroupExist(payload.GetParameter(i, "group"))

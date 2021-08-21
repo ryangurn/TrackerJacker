@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	wapi "github.com/iamacarpet/go-win64api"
-	"strings"
 )
 
 func GroupExist(group string) (retBool bool, retData string) {
