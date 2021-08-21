@@ -326,6 +326,26 @@ func main() {
 				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end firewall
+		} else if payload.GetSpace(i) == "groups" {
+			// groups rule implementation
+			if payload.GetAction(i) == "group_exists" {
+				result, data := windows.GroupExist(payload.GetParameter(i, "group"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "group_does_not_exist" {
+				result, data := windows.GroupExist(payload.GetParameter(i, "group"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "comment_is" {
+				result, data := windows.GroupComment(payload.GetParameter(i, "group"), payload.GetParameter(i, "comment"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "comment_is_not" {
+				result, data := windows.GroupComment(payload.GetParameter(i, "group"), payload.GetParameter(i, "comment"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			}
+			// end groups
 		}
 	}
 	batch, err = uuid.NewUUID()

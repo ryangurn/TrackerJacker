@@ -1,23 +1,27 @@
 package windows
 
 import (
+	"encoding/json"
 	"fmt"
 	wapi "github.com/iamacarpet/go-win64api"
 	"strings"
 )
 
-func GroupExist(grp string) (retBool bool) {
+func GroupExist(group string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	groups, err := wapi.ListLocalGroups()
 	if err != nil {
-		fmt.Printf("Error fetching group list, %s.\r\n", err.Error())
 		return
 	}
 
 	for _, g := range groups {
-		if strings.TrimSpace(strings.ToLower(grp)) == strings.TrimSpace(strings.ToLower(g.Name)) {
+		if group == g.Name {
 			retBool = true
+			if out, err := json.Marshal(g); err == nil {
+				return retBool, string(out)
+			}
 			return
 		}
 	}
@@ -25,8 +29,9 @@ func GroupExist(grp string) (retBool bool) {
 	return
 }
 
-func GroupMeta(grp string, key string, value interface{}) (retBool bool) {
+func GroupComment(group string, comment string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	groups, err := wapi.ListLocalGroups()
 	if err != nil {
@@ -35,14 +40,13 @@ func GroupMeta(grp string, key string, value interface{}) (retBool bool) {
 	}
 
 	for _, g := range groups {
-		if strings.TrimSpace(strings.ToLower(grp)) == strings.TrimSpace(strings.ToLower(g.Name)) {
-			if key == "Comment" {
-				if g.Comment == value.(string) {
-					retBool = true
-					return
-				} else {
-					return
+		if group == g.Name {
+			if g.Comment == comment {
+				retBool = true
+				if out, err := json.Marshal(g); err == nil {
+					return retBool, string(out)
 				}
+				return
 			}
 		}
 	}
