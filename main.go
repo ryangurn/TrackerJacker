@@ -382,6 +382,26 @@ func main() {
 				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end process
+		} else if payload.GetSpace(i) == "profile" {
+			// profile rule implementation
+			if payload.GetAction(i) == "user_directory_is" {
+				result, data := windows.ProfileUserDirectory(payload.GetParameter(i, "directory"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "user_directory_is_not" {
+				result, data := windows.ProfileUserDirectory(payload.GetParameter(i, "directory"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "directory_is" {
+				result, data := windows.ProfileDirectory(payload.GetParameter(i, "directory"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "directory_is_not" {
+				result, data := windows.ProfileDirectory(payload.GetParameter(i, "directory"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			}
+			// end profile
 		}
 	}
 	batch, err = uuid.NewUUID()
