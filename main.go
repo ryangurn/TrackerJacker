@@ -402,6 +402,74 @@ func main() {
 				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end profile
+		} else if payload.GetSpace(i) == "service" {
+			// service rule implementation
+			if payload.GetAction(i) == "service_exists" {
+				result, data := windows.ServiceExist(payload.GetParameter(i, "service"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "service_does_not_exist" {
+				result, data := windows.ServiceExist(payload.GetParameter(i, "service"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "display_name_is" {
+				result, data := windows.ServiceDisplayName(payload.GetParameter(i, "service"), payload.GetParameter(i, "name"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "display_name_is_not" {
+				result, data := windows.ServiceDisplayName(payload.GetParameter(i, "service"), payload.GetParameter(i, "name"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "status_text_is" {
+				result, data := windows.ServiceStatusText(payload.GetParameter(i, "service"), payload.GetParameter(i, "status"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "status_text_is_not" {
+				result, data := windows.ServiceStatusText(payload.GetParameter(i, "service"), payload.GetParameter(i, "status"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "status_is" {
+				result, data := windows.ServiceStatus(payload.GetParameter(i, "service"), payload.GetParameter(i, "status"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "status_is_not" {
+				result, data := windows.ServiceStatus(payload.GetParameter(i, "service"), payload.GetParameter(i, "status"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "accept_stop_is" {
+				result, data := windows.ServiceAcceptStop(payload.GetParameter(i, "service"), payload.GetParameter(i, "stop"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "accept_stop_is_not" {
+				result, data := windows.ServiceAcceptStop(payload.GetParameter(i, "service"), payload.GetParameter(i, "stop"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "is_running" {
+				result, data := windows.ServiceRunning(payload.GetParameter(i, "service"), payload.GetParameter(i, "running"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "is_not_running" {
+				result, data := windows.ServiceRunning(payload.GetParameter(i, "service"), payload.GetParameter(i, "running"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "running_pid_is" {
+				result, data := windows.ServiceRunningPid(payload.GetParameter(i, "service"), payload.GetParameter(i, "pid"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "running_pid_is_not" {
+				result, data := windows.ServiceRunningPid(payload.GetParameter(i, "service"), payload.GetParameter(i, "pid"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "service_type_is" {
+				result, data := windows.ServiceType(payload.GetParameter(i, "service"), payload.GetParameter(i, "type"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "service_type_is_not" {
+				result, data := windows.ServiceType(payload.GetParameter(i, "service"), payload.GetParameter(i, "type"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			}
+			// end service
 		}
 	}
 	batch, err = uuid.NewUUID()
