@@ -31,6 +31,8 @@ github.com/bugsnag/bugsnag-go v2.1.1+incompatible h1:tH4xLcWFBWTsri11ZSQnmPLVLn0
 github.com/bugsnag/bugsnag-go v2.1.1+incompatible/go.mod h1:2oa8nejYd4cQ/b0hMIopN0lCRxU0bueqREvZLWFrtK8=
 github.com/bugsnag/panicwrap v1.2.0 h1:OzrKrRvXis8qEvOkfcxNcYbOd2O7xXS2nnKMEMABFQA=
 github.com/bugsnag/panicwrap v1.2.0/go.mod h1:D/8v3kj0zr8ZAKg1AQ6crr+5VwKN5eIywRkfhyM/+dE=
+github.com/ceshihao/windowsupdate v0.0.0-20210126082819-49eea1c0a10b h1:pbEqyS6fb8iIE64zlMko5qN1/GyC6E7wIcPaLTx85bY=
+github.com/ceshihao/windowsupdate v0.0.0-20210126082819-49eea1c0a10b/go.mod h1:ftABHPFeSH4MFoOCXgKxaw3YllfrTJ8zczyoqUxMZ4g=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/coreos/bbolt v1.3.2/go.mod h1:iRUV2dpdMOn7Bo10OQBFzIJO9kkE559Wcmn+qkEiiKk=

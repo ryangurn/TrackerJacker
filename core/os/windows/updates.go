@@ -1,41 +1,98 @@
 package windows
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/ceshihao/windowsupdate"
+	"github.com/go-ole/go-ole"
 	wapi "github.com/iamacarpet/go-win64api"
+	"github.com/scjalliance/comshim"
 )
 
-func UpdateHistoryExists(update string, status string) (retBool bool) {
-	retBool = false
+func getUpdateHistory() (data []*windowsupdate.IUpdateHistoryEntry) {
+	comshim.Add(1)
+	defer comshim.Done()
 
-	updates, err := wapi.UpdatesPending()
+	// ole.CoInitialize(0)
+	ole.CoInitializeEx(0, ole.COINIT_APARTMENTTHREADED|ole.COINIT_SPEED_OVER_MEMORY)
+	defer ole.CoUninitialize()
+
+	var err error
+
+	session, err := windowsupdate.NewUpdateSession()
 	if err != nil {
-		return
+		panic(err)
 	}
 
-	for _, u := range updates.UpdateHistory {
-		if u.UpdateName == update && u.Status == status {
+	// Query Update History
+	fmt.Println("Step 1: Query Update History")
+	searcher, err := session.CreateUpdateSearcher()
+	if err != nil {
+		panic(err)
+	}
+
+	result, err := searcher.QueryHistoryAll()
+	if err != nil {
+		panic(err)
+	}
+
+	return result
+}
+
+func UpdateCompleted(update string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+
+	history := getUpdateHistory()
+	for _, h := range history {
+		if h.Title == update {
 			retBool = true
-			return
+			if out, err := json.Marshal(h); err == nil {
+				return retBool, string(out)
+			}
 		}
 	}
-
 	return
 }
 
-func Updated(completed bool) (retBool bool) {
+func UpdatePending(update string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
-	updates, err := wapi.UpdatesPending()
+	history, err := wapi.UpdatesPending()
 	if err != nil {
 		return
 	}
 
-	fmt.Println(!updates.UpdatesReq, completed)
-	if !updates.UpdatesReq == completed {
-		retBool = true
+	for _, h := range history.UpdateHistory {
+		if h.UpdateName == update {
+			retBool = true
+			if out, err := json.Marshal(h); err == nil {
+				return retBool, string(out)
+			}
+		}
+	}
+	return
+}
+
+func UpdateHistory(update string, status string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+
+	history, err := wapi.UpdatesPending()
+	if err != nil {
 		return
 	}
 
+	for _, h := range history.UpdateHistory {
+		if h.UpdateName == update {
+			if h.Status == status {
+				retBool = true
+				if out, err := json.Marshal(h); err == nil {
+					return retBool, string(out)
+				}
+			}
+		}
+	}
 	return
 }

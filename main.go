@@ -622,6 +622,26 @@ func main() {
 				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end software
+		} else if payload.GetSpace(i) == "update" {
+			// update rule implementation
+			if payload.GetAction(i) == "update_completed" {
+				result, data := windows.UpdateCompleted(payload.GetParameter(i, "update"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "update_pending" {
+				result, data := windows.UpdatePending(payload.GetParameter(i, "update"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "in_history" {
+				result, data := windows.UpdateHistory(payload.GetParameter(i, "update"), payload.GetParameter(i, "status"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "not_in_history" {
+				result, data := windows.UpdateHistory(payload.GetParameter(i, "update"), payload.GetParameter(i, "status"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			}
+			// end update
 		}
 	}
 	batch, err = uuid.NewUUID()
