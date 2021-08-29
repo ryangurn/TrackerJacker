@@ -530,6 +530,74 @@ func main() {
 				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end share
+		} else if payload.GetSpace(i) == "software" {
+			// software rule implementation
+			if payload.GetAction(i) == "software_exists" {
+				result, data := windows.SoftwareExist(payload.GetParameter(i, "software"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "software_does_not_exist" {
+				result, data := windows.SoftwareExist(payload.GetParameter(i, "software"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "arch_is" {
+				result, data := windows.SoftwareArch(payload.GetParameter(i, "software"), payload.GetParameter(i, "arch"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "arch_is_not" {
+				result, data := windows.SoftwareArch(payload.GetParameter(i, "software"), payload.GetParameter(i, "arch"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "publisher_is" {
+				result, data := windows.SoftwarePublisher(payload.GetParameter(i, "software"), payload.GetParameter(i, "publisher"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "publisher_is_not" {
+				result, data := windows.SoftwarePublisher(payload.GetParameter(i, "software"), payload.GetParameter(i, "publisher"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "install_date_is" {
+				result, data := windows.SoftwareInstall(payload.GetParameter(i, "software"), payload.GetParameter(i, "date"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "install_date_is_not" {
+				result, data := windows.SoftwareInstall(payload.GetParameter(i, "software"), payload.GetParameter(i, "date"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "estimated_size_is" {
+				result, data := windows.SoftwareEstimatedSize(payload.GetParameter(i, "software"), payload.GetParameter(i, "size"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "estimated_size_is_not" {
+				result, data := windows.SoftwareEstimatedSize(payload.GetParameter(i, "software"), payload.GetParameter(i, "size"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "contact_is" {
+
+			} else if payload.GetAction(i) == "contact_is_not" {
+
+			} else if payload.GetAction(i) == "helplink_is" {
+
+			} else if payload.GetAction(i) == "helplink_is_not" {
+
+			} else if payload.GetAction(i) == "install_source_is" {
+
+			} else if payload.GetAction(i) == "install_source_is_not" {
+
+			} else if payload.GetAction(i) == "install_location_is" {
+
+			} else if payload.GetAction(i) == "install_location_is_not" {
+
+			} else if payload.GetAction(i) == "version_major_is" {
+
+			} else if payload.GetAction(i) == "version_major_is_not" {
+
+			} else if payload.GetAction(i) == "version_minor_is" {
+
+			} else if payload.GetAction(i) == "version_minor_is_not" {
+
+			}
+			// end software
 		}
 	}
 	batch, err = uuid.NewUUID()

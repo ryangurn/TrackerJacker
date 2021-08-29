@@ -1,12 +1,13 @@
 package windows
 
 import (
+	"encoding/json"
 	wapi "github.com/iamacarpet/go-win64api"
 	"strconv"
 	"time"
 )
 
-func SoftwareExist(software string) (retBool bool){
+func SoftwareExist(software string) (retBool bool, retData string){
 	retBool = false
 
 	softwares, err := wapi.InstalledSoftwareList()
@@ -17,92 +18,111 @@ func SoftwareExist(software string) (retBool bool){
 	for _, v := range softwares {
 		if v.DisplayName == software {
 			retBool = true
+			if out, err := json.Marshal(v); err == nil {
+				return retBool, string(out)
+			}
+			return
 		}
 	}
 
 	return
 }
 
-func SoftwareMeta(software string, key string, value interface{}) (retBool bool) {
+func SoftwareArch(software string, arch string) (retBool bool, retData string){
 	retBool = false
 
 	softwares, err := wapi.InstalledSoftwareList()
-	if err != nil{
+	if err != nil {
 		return
 	}
 
 	for _, v := range softwares {
-		if v.DisplayName == software{
-			if key == "DisplayVersion" {
-				if v.DisplayVersion == value.(string) {
-					retBool = true
-					return
+		if v.DisplayName == software {
+			if v.Arch == arch {
+				retBool = true
+				if out, err := json.Marshal(v); err == nil {
+					return retBool, string(out)
 				}
-			} else if key == "Arch" {
-				if v.Arch == value.(string) {
-					retBool = true
-					return
-				}
-			} else if key == "Publisher" {
-				if v.Publisher == value.(string){
-					retBool = true
-					return
-				}
-			} else if key == "InstallDate" {
-				if v.InstallDate.Equal(value.(time.Time)) {
-					retBool = true
-					return
-				}
-			} else if key == "EstimatedSize" {
-				us, err := strconv.ParseUint(value.(string), 10, 32)
-				if err != nil {
-					return
-				}
+				return
+			}
+		}
+	}
 
-				if v.EstimatedSize == us {
-					retBool = true
-					return
-				}
-			} else if key == "Contact" {
-				if v.Contact == value.(string) {
-					retBool = true
-					return
-				}
-			} else if key == "HelpLink" {
-				if v.HelpLink == value.(string) {
-					retBool = true
-					return
-				}
-			} else if key == "InstallSource" {
-				if v.InstallSource == value.(string) {
-					retBool = true
-					return
-				}
-			} else if key == "InstallLocation" {
-				if v.InstallLocation == value.(string) {
-					retBool = true
-					return
-				}
-			} else if key == "VersionMajor" {
-				us, err := strconv.ParseUint(value.(string), 10, 32)
-				if err != nil {
-					return
-				}
+	return
+}
 
-				if v.VersionMajor == us {
-					retBool = true
-					return
-				}
-			} else if key == "VersionMinor" {
-				us, err := strconv.ParseUint(value.(string), 10, 32)
-				if err != nil {
-					return
-				}
+func SoftwarePublisher(software string, publisher string) (retBool bool, retData string){
+	retBool = false
 
-				if v.VersionMinor == us {
-					retBool = true
-					return
+	softwares, err := wapi.InstalledSoftwareList()
+	if err != nil {
+		return
+	}
+
+	for _, v := range softwares {
+		if v.DisplayName == software {
+			if v.Publisher == publisher {
+				retBool = true
+				if out, err := json.Marshal(v); err == nil {
+					return retBool, string(out)
 				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func SoftwareInstall(software string, date string) (retBool bool, retData string){
+	retBool = false
+
+	softwares, err := wapi.InstalledSoftwareList()
+	if err != nil {
+		return
+	}
+
+	for _, v := range softwares {
+		if v.DisplayName == software {
+			val, err := time.Parse("2016-01-02 15:04", date)
+			if err != nil {
+				return
+			}
+
+			if v.InstallDate == val {
+				retBool = true
+				if out, err := json.Marshal(v); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func SoftwareEstimatedSize(software string, size string) (retBool bool, retData string){
+	retBool = false
+
+	softwares, err := wapi.InstalledSoftwareList()
+	if err != nil {
+		return
+	}
+
+	for _, v := range softwares {
+		if v.DisplayName == software {
+			val, err := strconv.ParseUint(size, 10, 64)
+			if err != nil {
+				return
+			}
+
+			if v.EstimatedSize == uint64(val) {
+				retBool = true
+				if out, err := json.Marshal(v); err == nil {
+					return retBool, string(out)
+				}
+				return
 			}
 		}
 	}
