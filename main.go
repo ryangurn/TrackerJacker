@@ -470,6 +470,66 @@ func main() {
 				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end service
+		} else if payload.GetSpace(i) == "share" {
+			// share rule implementation
+			if payload.GetAction(i) == "share_exists" {
+				result, data := windows.ShareExist(payload.GetParameter(i, "share"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "share_does_not_exist" {
+				result, data := windows.ShareExist(payload.GetParameter(i, "share"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "status_is" {
+				result, data := windows.ShareStatus(payload.GetParameter(i, "share"), payload.GetParameter(i, "status"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "status_is_not" {
+				result, data := windows.ShareStatus(payload.GetParameter(i, "share"), payload.GetParameter(i, "status"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "caption_is" {
+				result, data := windows.ShareCaption(payload.GetParameter(i, "share"), payload.GetParameter(i, "caption"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "caption_is_not" {
+				result, data := windows.ShareCaption(payload.GetParameter(i, "share"), payload.GetParameter(i, "caption"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "description_is" {
+				result, data := windows.ShareDescription(payload.GetParameter(i, "share"), payload.GetParameter(i, "description"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "description_is_not" {
+				result, data := windows.ShareDescription(payload.GetParameter(i, "share"), payload.GetParameter(i, "description"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "path_is" {
+				result, data := windows.SharePath(payload.GetParameter(i, "share"), payload.GetParameter(i, "path"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "path_is_not" {
+				result, data := windows.SharePath(payload.GetParameter(i, "share"), payload.GetParameter(i, "path"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "allow_maximum_is" {
+				result, data := windows.ShareAllowMaximum(payload.GetParameter(i, "share"), payload.GetParameter(i, "allow"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "allow_maximum_is_not" {
+				result, data := windows.ShareAllowMaximum(payload.GetParameter(i, "share"), payload.GetParameter(i, "allow"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "type_is" {
+				result, data := windows.ShareType(payload.GetParameter(i, "share"), payload.GetParameter(i, "type"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "type_is_not" {
+				result, data := windows.ShareType(payload.GetParameter(i, "share"), payload.GetParameter(i, "type"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			}
+			// end share
 		}
 	}
 	batch, err = uuid.NewUUID()

@@ -4,7 +4,6 @@ import (
 	"TrackerJacker/core"
 	"encoding/json"
 	"strconv"
-	"strings"
 )
 
 type ShareStruct []struct {
@@ -17,15 +16,19 @@ type ShareStruct []struct {
 	Type           int64       `json:"Type"`
 }
 
-func ShareExist(share string) (retBool bool) {
+func ShareExist(share string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	out := core.Command("Get-WmiObject win32_share | select Name | convertto-json")
 	var structures ShareStruct
 	json.Unmarshal([]byte(out), &structures)
 	for _, s := range structures {
-		if strings.TrimSpace(strings.ToLower(s.Name)) == strings.TrimSpace(strings.ToLower(share)) {
+		if s.Name == share {
 			retBool = true
+			if out, err := json.Marshal(s); err == nil {
+				return retBool, string(out)
+			}
 			return
 		}
 	}
@@ -33,57 +36,145 @@ func ShareExist(share string) (retBool bool) {
 	return
 }
 
-func ShareMeta(share string, key string, value interface{}) (retBool bool) {
+func ShareStatus(share string, status string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
-	out := core.Command("Get-WmiObject win32_share | select Caption, Description, InstallDate, Status, AccessMask, AllowMaximum, MaximumAllowed, Name, Path, Type | convertto-json")
+	out := core.Command("Get-WmiObject win32_share | select Name, Status | convertto-json")
 	var structures ShareStruct
 	json.Unmarshal([]byte(out), &structures)
 	for _, s := range structures {
-		if strings.TrimSpace(strings.ToLower(s.Name)) == strings.TrimSpace(strings.ToLower(share)) {
-			if key == "Status" {
-				if s.Status == value.(string) {
-					retBool = true
-					return
-				}
-			} else if key == "Caption" {
-				if s.Caption == value.(string) {
-					retBool = true
-					return
-				}
-			} else if key == "Description" {
-				if s.Description == value.(string) {
-					retBool = true
-					return
-				}
-			} else if key == "Path" {
-				if s.Path == value.(string) {
-					retBool = true
-					return
-				}
-			} else if key == "AllowMaximum" {
-				val, err := strconv.ParseBool(value.(string))
-				if err != nil {
-					return
-				}
-
-				if s.AllowMaximum == val {
-					retBool = true
-					return
-				}
-			} else if key == "Type" {
-				us, err := strconv.ParseInt(value.(string), 10, 64)
-				if err != nil {
-					return
-				}
-
-				if s.Type == us {
-					retBool = true
-					return
+		if s.Name == share {
+			if s.Status == status {
+				retBool = true
+				if out, err := json.Marshal(s); err == nil {
+					return retBool, string(out)
 				}
 			}
+			return
 		}
 	}
 
 	return
 }
+
+func ShareCaption(share string, caption string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+
+	out := core.Command("Get-WmiObject win32_share | select Name, Caption | convertto-json")
+	var structures ShareStruct
+	json.Unmarshal([]byte(out), &structures)
+	for _, s := range structures {
+		if s.Name == share {
+			if s.Caption == caption {
+				retBool = true
+				if out, err := json.Marshal(s); err == nil {
+					return retBool, string(out)
+				}
+			}
+			return
+		}
+	}
+
+	return
+}
+
+func ShareDescription(share string, description string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+
+	out := core.Command("Get-WmiObject win32_share | select Name, Description | convertto-json")
+	var structures ShareStruct
+	json.Unmarshal([]byte(out), &structures)
+	for _, s := range structures {
+		if s.Name == share {
+			if s.Description == description {
+				retBool = true
+				if out, err := json.Marshal(s); err == nil {
+					return retBool, string(out)
+				}
+			}
+			return
+		}
+	}
+
+	return
+}
+
+func SharePath(share string, path string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+
+	out := core.Command("Get-WmiObject win32_share | select Name, Path | convertto-json")
+	var structures ShareStruct
+	json.Unmarshal([]byte(out), &structures)
+	for _, s := range structures {
+		if s.Name == share {
+			if s.Path == path {
+				retBool = true
+				if out, err := json.Marshal(s); err == nil {
+					return retBool, string(out)
+				}
+			}
+			return
+		}
+	}
+
+	return
+}
+
+func ShareAllowMaximum(share string, maximum string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+
+	out := core.Command("Get-WmiObject win32_share | select Name, AllowMaximum | convertto-json")
+	var structures ShareStruct
+	json.Unmarshal([]byte(out), &structures)
+	for _, s := range structures {
+		if s.Name == share {
+			val, err := strconv.ParseBool(maximum)
+			if err != nil {
+				return
+			}
+
+			if s.AllowMaximum == val {
+				retBool = true
+				if out, err := json.Marshal(s); err == nil {
+					return retBool, string(out)
+				}
+			}
+			return
+		}
+	}
+
+	return
+}
+
+func ShareType(share string, typ string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+
+	out := core.Command("Get-WmiObject win32_share | select Name, AllowMaximum | convertto-json")
+	var structures ShareStruct
+	json.Unmarshal([]byte(out), &structures)
+	for _, s := range structures {
+		if s.Name == share {
+			val, err := strconv.ParseInt(typ, 10, 64)
+			if err != nil {
+				return
+			}
+
+			if s.Type == val {
+				retBool = true
+				if out, err := json.Marshal(s); err == nil {
+					return retBool, string(out)
+				}
+			}
+			return
+		}
+	}
+
+	return
+}
+//out := core.Command("Get-WmiObject win32_share | select Caption, Description, InstallDate, Status, AccessMask, AllowMaximum, MaximumAllowed, Name, Path, Type | convertto-json")
