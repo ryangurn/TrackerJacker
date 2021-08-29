@@ -129,3 +129,151 @@ func SoftwareEstimatedSize(software string, size string) (retBool bool, retData 
 
 	return
 }
+
+func SoftwareContact(software string, contact string) (retBool bool, retData string){
+	retBool = false
+
+	softwares, err := wapi.InstalledSoftwareList()
+	if err != nil {
+		return
+	}
+
+	for _, v := range softwares {
+		if v.DisplayName == software {
+			if v.Contact == contact {
+				retBool = true
+				if out, err := json.Marshal(v); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func SoftwareHelplink(software string, link string) (retBool bool, retData string){
+	retBool = false
+
+	softwares, err := wapi.InstalledSoftwareList()
+	if err != nil {
+		return
+	}
+
+	for _, v := range softwares {
+		if v.DisplayName == software {
+			if v.HelpLink == link {
+				retBool = true
+				if out, err := json.Marshal(v); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func SoftwareInstallSource(software string, source string) (retBool bool, retData string){
+	retBool = false
+
+	softwares, err := wapi.InstalledSoftwareList()
+	if err != nil {
+		return
+	}
+
+	for _, v := range softwares {
+		if v.DisplayName == software {
+			if v.InstallSource == source {
+				retBool = true
+				if out, err := json.Marshal(v); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func SoftwareInstallLocation(software string, location string) (retBool bool, retData string){
+	retBool = false
+
+	softwares, err := wapi.InstalledSoftwareList()
+	if err != nil {
+		return
+	}
+
+	for _, v := range softwares {
+		if v.DisplayName == software {
+			if v.InstallLocation == location {
+				retBool = true
+				if out, err := json.Marshal(v); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func SoftwareMajorVersion(software string, version string) (retBool bool, retData string){
+	retBool = false
+
+	softwares, err := wapi.InstalledSoftwareList()
+	if err != nil {
+		return
+	}
+
+	for _, v := range softwares {
+		if v.DisplayName == software {
+			val, err := strconv.ParseUint(version, 10, 64)
+			if err != nil {
+				return
+			}
+
+			if v.VersionMajor == uint64(val) {
+				retBool = true
+				if out, err := json.Marshal(v); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func SoftwareMinorVersion(software string, version string) (retBool bool, retData string){
+	retBool = false
+
+	softwares, err := wapi.InstalledSoftwareList()
+	if err != nil {
+		return
+	}
+
+	for _, v := range softwares {
+		if v.DisplayName == software {
+			val, err := strconv.ParseUint(version, 10, 64)
+			if err != nil {
+				return
+			}
+
+			if v.VersionMajor == uint64(val) {
+				retBool = true
+				if out, err := json.Marshal(v); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}

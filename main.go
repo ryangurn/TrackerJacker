@@ -570,32 +570,56 @@ func main() {
 				submission.Send(data, result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "estimated_size_is_not" {
 				result, data := windows.SoftwareEstimatedSize(payload.GetParameter(i, "software"), payload.GetParameter(i, "size"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "contact_is" {
+				result, data := windows.SoftwareContact(payload.GetParameter(i, "software"), payload.GetParameter(i, "contact"))
 				payload.DebugPrint(i, result) // debug print
 				submission.Send(data, result, payload[i].ID, batch) // send score
-			} else if payload.GetAction(i) == "contact_is" {
-
 			} else if payload.GetAction(i) == "contact_is_not" {
-
+				result, data := windows.SoftwareContact(payload.GetParameter(i, "software"), payload.GetParameter(i, "contact"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "helplink_is" {
-
+				result, data := windows.SoftwareHelplink(payload.GetParameter(i, "software"), payload.GetParameter(i, "link"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "helplink_is_not" {
-
+				result, data := windows.SoftwareHelplink(payload.GetParameter(i, "software"), payload.GetParameter(i, "link"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "install_source_is" {
-
+				result, data := windows.SoftwareInstallSource(payload.GetParameter(i, "software"), payload.GetParameter(i, "source"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "install_source_is_not" {
-
+				result, data := windows.SoftwareInstallSource(payload.GetParameter(i, "software"), payload.GetParameter(i, "source"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "install_location_is" {
-
+				result, data := windows.SoftwareInstallLocation(payload.GetParameter(i, "software"), payload.GetParameter(i, "location"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "install_location_is_not" {
-
+				result, data := windows.SoftwareInstallLocation(payload.GetParameter(i, "software"), payload.GetParameter(i, "location"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "version_major_is" {
-
+				result, data := windows.SoftwareMajorVersion(payload.GetParameter(i, "software"), payload.GetParameter(i, "major"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "version_major_is_not" {
-
+				result, data := windows.SoftwareMajorVersion(payload.GetParameter(i, "software"), payload.GetParameter(i, "major"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "version_minor_is" {
-
+				result, data := windows.SoftwareMinorVersion(payload.GetParameter(i, "software"), payload.GetParameter(i, "minor"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "version_minor_is_not" {
-
+				result, data := windows.SoftwareMinorVersion(payload.GetParameter(i, "software"), payload.GetParameter(i, "minor"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end software
 		}
