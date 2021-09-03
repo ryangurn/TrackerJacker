@@ -1,25 +1,26 @@
 package windows
 
 import (
-	"fmt"
+	"encoding/json"
 	wapi "github.com/iamacarpet/go-win64api"
 	"strconv"
-	"strings"
 	"time"
 )
 
-func UserExist(usr string) (retBool bool) {
+func UserExist(usr string) (retBool bool, retData string) {
 	retBool = false
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
-		fmt.Printf("Error fetching user list, %s.\r\n", err.Error())
 		return
 	}
 
 	for _, u := range users {
-		if strings.TrimSpace(strings.ToLower(usr)) == strings.TrimSpace(strings.ToLower(u.Username)) {
+		if usr == u.Username {
 			retBool = true
+			if out, err := json.Marshal(u); err == nil {
+				return retBool, string(out)
+			}
 			return
 		}
 	}
@@ -27,80 +28,7 @@ func UserExist(usr string) (retBool bool) {
 	return
 }
 
-func UserMeta(usr string, key string, value interface{}) (retBool bool) {
-	retBool = false
-
-	users, err := wapi.ListLocalUsers()
-	if err != nil {
-		fmt.Printf("Error fetching user list, %s\r\n", err.Error())
-		return
-	}
-
-	for _, u := range users {
-		if usr == u.Username {
-			if key == "BadPasswordCount" {
-				us, err := strconv.ParseUint(value.(string), 10, 32)
-				if err != nil {
-					return
-				}
-
-				if uint32(us) == u.BadPasswordCount {
-					retBool = true
-					return
-				}
-			} else if key == "FullName" {
-				if value.(string) == u.FullName {
-					retBool = true
-					return
-				}
-			} else if key == "IsAdmin" {
-				if value.(string) == strconv.FormatBool(u.IsAdmin) {
-					retBool = true
-					return
-				}
-			} else if key == "IsEnabled" {
-				if value.(string) == strconv.FormatBool(u.IsEnabled) {
-					retBool = true
-					return
-				}
-			} else if key == "IsLocked" {
-				if value.(string) == strconv.FormatBool(u.IsLocked) {
-					retBool = true
-					return
-				}
-			} else if key == "LastLogon" {
-				if value.(time.Time) == u.LastLogon {
-					retBool = true
-					return
-				}
-			} else if key == "NoChangePassword" {
-				if value.(string) == strconv.FormatBool(u.NoChangePassword) {
-					retBool = true
-					return
-				}
-			} else if key == "NumberOfLogons" {
-				if value.(uint32) == u.NumberOfLogons {
-					retBool = true
-					return
-				}
-			} else if key == "PasswordAge" {
-				if value.(time.Duration) == u.PasswordAge {
-					retBool = true
-					return
-				}
-			} else if key == "PasswordNeverExpires" {
-				if value.(string) == strconv.FormatBool(u.PasswordNeverExpires) {
-					retBool = true
-					return
-				}
-			}
-		}
-	}
-
-	return
-}
-
-func UserLoggedIn(usr string) (retBool bool) {
+func UserLoggedIn(usr string) (retBool bool, retData string) {
 	retBool = false
 
 	users, err := wapi.ListLoggedInUsers()
@@ -109,8 +37,234 @@ func UserLoggedIn(usr string) (retBool bool) {
 	}
 
 	for _, u := range users {
-		if strings.TrimSpace(strings.ToLower(usr)) == strings.TrimSpace(strings.ToLower(u.Username)) {
+		if usr == u.Username {
 			retBool = true
+			if out, err := json.Marshal(u); err == nil {
+				return retBool, string(out)
+			}
+			return
+		}
+	}
+
+	return
+}
+
+func UserBadPassword(usr string, count string) (retBool bool, retData string) {
+	retBool = false
+
+	users, err := wapi.ListLocalUsers()
+	if err != nil {
+		return
+	}
+
+	for _, u := range users {
+		if usr == u.Username {
+			val, err := strconv.ParseUint(count, 10, 64)
+			if err != nil {
+				return
+			}
+
+			if u.BadPasswordCount == uint32(val) {
+				retBool = true
+				if out, err := json.Marshal(u); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func UserFullName(usr string, name string) (retBool bool, retData string) {
+	retBool = false
+
+	users, err := wapi.ListLocalUsers()
+	if err != nil {
+		return
+	}
+
+	for _, u := range users {
+		if usr == u.Username {
+			if u.FullName == name {
+				retBool = true
+				if out, err := json.Marshal(u); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func UserAdmin(usr string) (retBool bool, retData string) {
+	retBool = false
+
+	users, err := wapi.ListLocalUsers()
+	if err != nil {
+		return
+	}
+
+	for _, u := range users {
+		if usr == u.Username {
+			if u.IsAdmin == true {
+				retBool = true
+				if out, err := json.Marshal(u); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func UserEnabled(usr string) (retBool bool, retData string) {
+	retBool = false
+
+	users, err := wapi.ListLocalUsers()
+	if err != nil {
+		return
+	}
+
+	for _, u := range users {
+		if usr == u.Username {
+			if u.IsEnabled == true {
+				retBool = true
+				if out, err := json.Marshal(u); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func UserLocked(usr string) (retBool bool, retData string) {
+	retBool = false
+
+	users, err := wapi.ListLocalUsers()
+	if err != nil {
+		return
+	}
+
+	for _, u := range users {
+		if usr == u.Username {
+			if u.IsLocked == true {
+				retBool = true
+				if out, err := json.Marshal(u); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func UserLastLogon(usr string, date string) (retBool bool, retData string) {
+	retBool = false
+
+	users, err := wapi.ListLocalUsers()
+	if err != nil {
+		return
+	}
+
+	for _, u := range users {
+		if usr == u.Username {
+			val, err := time.Parse("2016-01-02 15:04", date)
+			if err != nil {
+				return
+			}
+
+			if u.LastLogon == val {
+				retBool = true
+				if out, err := json.Marshal(u); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func UserNoChangePassword(usr string) (retBool bool, retData string) {
+	retBool = false
+
+	users, err := wapi.ListLocalUsers()
+	if err != nil {
+		return
+	}
+
+	for _, u := range users {
+		if usr == u.Username {
+			if u.NoChangePassword == true {
+				retBool = true
+				if out, err := json.Marshal(u); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func UserPasswordChangeable(usr string) (retBool bool, retData string) {
+	retBool = false
+
+	users, err := wapi.ListLocalUsers()
+	if err != nil {
+		return
+	}
+
+	for _, u := range users {
+		if usr == u.Username {
+			if u.NoChangePassword == true {
+				retBool = true
+				if out, err := json.Marshal(u); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func UserNoOfLogons(usr string, count string) (retBool bool, retData string) {
+	retBool = false
+
+	users, err := wapi.ListLocalUsers()
+	if err != nil {
+		return
+	}
+
+	for _, u := range users {
+		if usr == u.Username {
+			val, err := strconv.ParseUint(count, 10, 64)
+			if err != nil {
+				return
+			}
+
+			if u.NumberOfLogons == uint32(val) {
+				retBool = true
+				if out, err := json.Marshal(u); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
 		}
 	}
 

@@ -642,6 +642,98 @@ func main() {
 				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end update
+		} else if payload.GetSpace(i) == "user_windows" {
+			// windows user rule implementation
+			if payload.GetAction(i) == "user_exists" {
+				result, data := windows.UserExist(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "user_does_not_exist" {
+				result, data := windows.UserExist(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "user_logged_in" {
+				result, data := windows.UserLoggedIn(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "user_not_logged_in" {
+				result, data := windows.UserLoggedIn(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "bad_password_count_is" {
+				result, data := windows.UserBadPassword(payload.GetParameter(i, "username"), payload.GetParameter(i, "count"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "bad_password_count_is_not" {
+				result, data := windows.UserBadPassword(payload.GetParameter(i, "username"), payload.GetParameter(i, "count"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "fullname_is" {
+				result, data := windows.UserFullName(payload.GetParameter(i, "username"), payload.GetParameter(i, "name"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "fullname_is_not" {
+				result, data := windows.UserFullName(payload.GetParameter(i, "username"), payload.GetParameter(i, "name"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "is_admin" {
+				result, data := windows.UserAdmin(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "is_not_admin" {
+				result, data := windows.UserAdmin(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "is_enabled" {
+				result, data := windows.UserEnabled(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "is_not_enabled" {
+				result, data := windows.UserEnabled(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "is_locked" {
+				result, data := windows.UserLocked(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "is_not_locked" {
+				result, data := windows.UserLocked(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "last_logon_is" {
+				result, data := windows.UserLastLogon(payload.GetParameter(i, "username"), payload.GetParameter(i, "date"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "last_logon_is_not" {
+				result, data := windows.UserLastLogon(payload.GetParameter(i, "username"), payload.GetParameter(i, "date"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "no_change_password" {
+				result, data := windows.UserNoChangePassword(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "password_changeable" {
+				result, data := windows.UserPasswordChangeable(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "number_of_logons_is" {
+				result, data := windows.UserNoOfLogons(payload.GetParameter(i, "username"), payload.GetParameter(i, "logons"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "number_of_logons_is_not" {
+				result, data := windows.UserNoOfLogons(payload.GetParameter(i, "username"), payload.GetParameter(i, "logons"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
+			} else if payload.GetAction(i) == "password_age_is" {
+
+			} else if payload.GetAction(i) == "password_age_is_not" {
+
+			} else if payload.GetAction(i) == "password_never_expires" {
+
+			} else if payload.GetAction(i) == "password_expires" {
+
+			}
+			// end windows user
 		}
 	}
 	batch, err = uuid.NewUUID()
