@@ -725,13 +725,21 @@ func main() {
 				payload.DebugPrint(i, !result) // debug print
 				submission.Send(data, !result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "password_age_is" {
-
+				result, data := windows.UserPasswordAge(payload.GetParameter(i, "username"), payload.GetParameter(i, "duration"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "password_age_is_not" {
-
+				result, data := windows.UserPasswordAge(payload.GetParameter(i, "username"), payload.GetParameter(i, "duration"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "password_never_expires" {
-
+				result, data := windows.UserPasswordExpires(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, result) // debug print
+				submission.Send(data, result, payload[i].ID, batch) // send score
 			} else if payload.GetAction(i) == "password_expires" {
-
+				result, data := windows.UserPasswordExpires(payload.GetParameter(i, "username"))
+				payload.DebugPrint(i, !result) // debug print
+				submission.Send(data, !result, payload[i].ID, batch) // send score
 			}
 			// end windows user
 		}

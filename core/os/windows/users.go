@@ -9,6 +9,7 @@ import (
 
 func UserExist(usr string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
@@ -30,6 +31,7 @@ func UserExist(usr string) (retBool bool, retData string) {
 
 func UserLoggedIn(usr string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	users, err := wapi.ListLoggedInUsers()
 	if err != nil {
@@ -51,6 +53,7 @@ func UserLoggedIn(usr string) (retBool bool, retData string) {
 
 func UserBadPassword(usr string, count string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
@@ -79,6 +82,7 @@ func UserBadPassword(usr string, count string) (retBool bool, retData string) {
 
 func UserFullName(usr string, name string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
@@ -102,6 +106,7 @@ func UserFullName(usr string, name string) (retBool bool, retData string) {
 
 func UserAdmin(usr string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
@@ -125,6 +130,7 @@ func UserAdmin(usr string) (retBool bool, retData string) {
 
 func UserEnabled(usr string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
@@ -148,6 +154,7 @@ func UserEnabled(usr string) (retBool bool, retData string) {
 
 func UserLocked(usr string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
@@ -171,6 +178,7 @@ func UserLocked(usr string) (retBool bool, retData string) {
 
 func UserLastLogon(usr string, date string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
@@ -199,6 +207,7 @@ func UserLastLogon(usr string, date string) (retBool bool, retData string) {
 
 func UserNoChangePassword(usr string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
@@ -222,6 +231,7 @@ func UserNoChangePassword(usr string) (retBool bool, retData string) {
 
 func UserPasswordChangeable(usr string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
@@ -245,6 +255,7 @@ func UserPasswordChangeable(usr string) (retBool bool, retData string) {
 
 func UserNoOfLogons(usr string, count string) (retBool bool, retData string) {
 	retBool = false
+	retData = ""
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
@@ -259,6 +270,59 @@ func UserNoOfLogons(usr string, count string) (retBool bool, retData string) {
 			}
 
 			if u.NumberOfLogons == uint32(val) {
+				retBool = true
+				if out, err := json.Marshal(u); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func UserPasswordAge(usr string, duration string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+
+	users, err := wapi.ListLocalUsers()
+	if err != nil {
+		return
+	}
+
+	for _, u := range users {
+		if usr == u.Username {
+			val, err := time.ParseDuration(duration)
+			if err != nil {
+				return
+			}
+
+			if u.PasswordAge == val {
+				retBool = true
+				if out, err := json.Marshal(u); err == nil {
+					return retBool, string(out)
+				}
+				return
+			}
+		}
+	}
+
+	return
+}
+
+func UserPasswordExpires(usr string) (retBool bool, retData string) {
+	retBool = false
+	retData = ""
+
+	users, err := wapi.ListLocalUsers()
+	if err != nil {
+		return
+	}
+
+	for _, u := range users {
+		if usr == u.Username {
+			if u.PasswordNeverExpires == true {
 				retBool = true
 				if out, err := json.Marshal(u); err == nil {
 					return retBool, string(out)
