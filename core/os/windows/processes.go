@@ -20,11 +20,11 @@ func ProcessExist(executable string) (retBool bool, retData string) {
 			if out, err := json.Marshal(p); err == nil {
 				return retBool, string(out)
 			}
-			return
 		}
 	}
 
-	return
+	out, _ := json.Marshal(processes)
+	return retBool, string(out)
 }
 
 func ProcessPID(executable string, pid string) (retBool bool, retData string) {
@@ -49,11 +49,11 @@ func ProcessPID(executable string, pid string) (retBool bool, retData string) {
 					return retBool, string(out)
 				}
 			}
-			return
 		}
 	}
 
-	return
+	out, _ := json.Marshal(processes)
+	return retBool, string(out)
 }
 
 func ProcessPPID(executable string, ppid string) (retBool bool, retData string) {
@@ -78,11 +78,11 @@ func ProcessPPID(executable string, ppid string) (retBool bool, retData string) 
 					return retBool, string(out)
 				}
 			}
-			return
 		}
 	}
 
-	return
+	out, _ := json.Marshal(processes)
+	return retBool, string(out)
 }
 
 func ProcessUsername(executable string, username string) (retBool bool, retData string) {
@@ -102,9 +102,9 @@ func ProcessUsername(executable string, username string) (retBool bool, retData 
 					return retBool, string(out)
 				}
 			}
-			return
 		}
 	}
 
-	return
+	out, _ := json.Marshal(processes)
+	return retBool, string(out)
 }

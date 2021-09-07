@@ -11,7 +11,8 @@ func BitlockerDriveLocked(drive string) (retBool bool, retData string) {
 	retData = ""
 	info, err := wapi.GetBitLockerRecoveryInfoForDrive(drive)
 	if err != nil {
-		return
+		out, _ := json.Marshal(info)
+		return retBool, string(out)
 	}
 
 	if info.ProtectionStatus == 2 {
@@ -21,7 +22,8 @@ func BitlockerDriveLocked(drive string) (retBool bool, retData string) {
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func BitlockerDeviceID(drive string, id string) (retBool bool, retData string) {
@@ -29,7 +31,8 @@ func BitlockerDeviceID(drive string, id string) (retBool bool, retData string) {
 	retData = ""
 	info, err := wapi.GetBitLockerRecoveryInfoForDrive(drive)
 	if err != nil {
-		return
+		out, _ := json.Marshal(info)
+		return retBool, string(out)
 	}
 
 	if info.DeviceID == id {
@@ -39,7 +42,8 @@ func BitlockerDeviceID(drive string, id string) (retBool bool, retData string) {
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func BitlockerPersistentVolumeID(drive string, id string) (retBool bool, retData string) {
@@ -47,7 +51,8 @@ func BitlockerPersistentVolumeID(drive string, id string) (retBool bool, retData
 	retData = ""
 	info, err := wapi.GetBitLockerRecoveryInfoForDrive(drive)
 	if err != nil {
-		return
+		out, _ := json.Marshal(info)
+		return retBool, string(out)
 	}
 
 	if info.PersistentVolumeID == id {
@@ -57,7 +62,8 @@ func BitlockerPersistentVolumeID(drive string, id string) (retBool bool, retData
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func BitlockerConversionStatus(drive string, status string) (retBool bool, retData string) {
@@ -65,7 +71,8 @@ func BitlockerConversionStatus(drive string, status string) (retBool bool, retDa
 	retData = ""
 	info, err := wapi.GetBitLockerRecoveryInfoForDrive(drive)
 	if err != nil {
-		return
+		out, _ := json.Marshal(info)
+		return retBool, string(out)
 	}
 
 	val, err := strconv.ParseUint(status, 10, 32)
@@ -80,7 +87,8 @@ func BitlockerConversionStatus(drive string, status string) (retBool bool, retDa
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func BitlockerProtectionStatus(drive string, status string) (retBool bool, retData string) {
@@ -88,7 +96,8 @@ func BitlockerProtectionStatus(drive string, status string) (retBool bool, retDa
 	retData = ""
 	info, err := wapi.GetBitLockerRecoveryInfoForDrive(drive)
 	if err != nil {
-		return
+		out, _ := json.Marshal(info)
+		return retBool, string(out)
 	}
 
 	val, err := strconv.ParseUint(status, 10, 32)
@@ -102,5 +111,7 @@ func BitlockerProtectionStatus(drive string, status string) (retBool bool, retDa
 			return retBool, string(out)
 		}
 	}
-	return
+
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }

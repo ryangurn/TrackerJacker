@@ -2,6 +2,7 @@ package windows
 
 import (
 	"encoding/json"
+	"fmt"
 	wapi "github.com/iamacarpet/go-win64api"
 	"strconv"
 	"time"
@@ -22,11 +23,11 @@ func UserExist(usr string) (retBool bool, retData string) {
 			if out, err := json.Marshal(u); err == nil {
 				return retBool, string(out)
 			}
-			return
 		}
 	}
 
-	return
+	out, _ := json.Marshal(users)
+	return retBool, string(out)
 }
 
 func UserLoggedIn(usr string) (retBool bool, retData string) {
@@ -44,11 +45,11 @@ func UserLoggedIn(usr string) (retBool bool, retData string) {
 			if out, err := json.Marshal(u); err == nil {
 				return retBool, string(out)
 			}
-			return
 		}
 	}
 
-	return
+	out, _ := json.Marshal(users)
+	return retBool, string(out)
 }
 
 func UserBadPassword(usr string, count string) (retBool bool, retData string) {
@@ -72,12 +73,12 @@ func UserBadPassword(usr string, count string) (retBool bool, retData string) {
 				if out, err := json.Marshal(u); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(users)
+	return retBool, string(out)
 }
 
 func UserFullName(usr string, name string) (retBool bool, retData string) {
@@ -96,12 +97,12 @@ func UserFullName(usr string, name string) (retBool bool, retData string) {
 				if out, err := json.Marshal(u); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(users)
+	return retBool, string(out)
 }
 
 func UserAdmin(usr string) (retBool bool, retData string) {
@@ -120,12 +121,12 @@ func UserAdmin(usr string) (retBool bool, retData string) {
 				if out, err := json.Marshal(u); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(users)
+	return retBool, string(out)
 }
 
 func UserEnabled(usr string) (retBool bool, retData string) {
@@ -144,12 +145,12 @@ func UserEnabled(usr string) (retBool bool, retData string) {
 				if out, err := json.Marshal(u); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(users)
+	return retBool, string(out)
 }
 
 func UserLocked(usr string) (retBool bool, retData string) {
@@ -168,12 +169,12 @@ func UserLocked(usr string) (retBool bool, retData string) {
 				if out, err := json.Marshal(u); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(users)
+	return retBool, string(out)
 }
 
 func UserLastLogon(usr string, date string) (retBool bool, retData string) {
@@ -187,8 +188,9 @@ func UserLastLogon(usr string, date string) (retBool bool, retData string) {
 
 	for _, u := range users {
 		if usr == u.Username {
-			val, err := time.Parse("2016-01-02 15:04", date)
+			val, err := time.Parse("2006-01-02 15:04", date)
 			if err != nil {
+				fmt.Println(err)
 				return
 			}
 
@@ -197,12 +199,12 @@ func UserLastLogon(usr string, date string) (retBool bool, retData string) {
 				if out, err := json.Marshal(u); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(users)
+	return retBool, string(out)
 }
 
 func UserNoChangePassword(usr string) (retBool bool, retData string) {
@@ -221,12 +223,12 @@ func UserNoChangePassword(usr string) (retBool bool, retData string) {
 				if out, err := json.Marshal(u); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(users)
+	return retBool, string(out)
 }
 
 func UserPasswordChangeable(usr string) (retBool bool, retData string) {
@@ -245,12 +247,12 @@ func UserPasswordChangeable(usr string) (retBool bool, retData string) {
 				if out, err := json.Marshal(u); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(users)
+	return retBool, string(out)
 }
 
 func UserNoOfLogons(usr string, count string) (retBool bool, retData string) {
@@ -274,12 +276,12 @@ func UserNoOfLogons(usr string, count string) (retBool bool, retData string) {
 				if out, err := json.Marshal(u); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(users)
+	return retBool, string(out)
 }
 
 func UserPasswordAge(usr string, duration string) (retBool bool, retData string) {
@@ -303,12 +305,12 @@ func UserPasswordAge(usr string, duration string) (retBool bool, retData string)
 				if out, err := json.Marshal(u); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(users)
+	return retBool, string(out)
 }
 
 func UserPasswordExpires(usr string) (retBool bool, retData string) {
@@ -327,10 +329,10 @@ func UserPasswordExpires(usr string) (retBool bool, retData string) {
 				if out, err := json.Marshal(u); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(users)
+	return retBool, string(out)
 }

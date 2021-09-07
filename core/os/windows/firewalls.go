@@ -33,7 +33,8 @@ func FirewallProfile(firewall string) (retBool bool, retData string) {
 
 	profiles, err := wapi.FirewallCurrentProfiles()
 	if err != nil {
-		return
+		out, _ := json.Marshal(profiles)
+		return retBool, string(out)
 	}
 
 	switch firewall {
@@ -57,7 +58,8 @@ func FirewallProfile(firewall string) (retBool bool, retData string) {
 		break
 	}
 
-	return
+	out, _ := json.Marshal(profiles)
+	return retBool, string(out)
 }
 
 func FirewallRuleExists(rule string) (retBool bool, retData string) {
@@ -76,7 +78,8 @@ func FirewallRuleExists(rule string) (retBool bool, retData string) {
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallApplication(rule string, application string) (retBool bool, retData string) {
@@ -95,7 +98,8 @@ func FirewallApplication(rule string, application string) (retBool bool, retData
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallService(rule string, service string) (retBool bool, retData string) {
@@ -114,7 +118,8 @@ func FirewallService(rule string, service string) (retBool bool, retData string)
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallLocalPort(rule string, port string) (retBool bool, retData string) {
@@ -133,7 +138,8 @@ func FirewallLocalPort(rule string, port string) (retBool bool, retData string) 
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallRemotePort(rule string, port string) (retBool bool, retData string) {
@@ -152,7 +158,8 @@ func FirewallRemotePort(rule string, port string) (retBool bool, retData string)
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallLocalAddress(rule string, port string) (retBool bool, retData string) {
@@ -171,7 +178,8 @@ func FirewallLocalAddress(rule string, port string) (retBool bool, retData strin
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallRemoteAddress(rule string, port string) (retBool bool, retData string) {
@@ -190,7 +198,8 @@ func FirewallRemoteAddress(rule string, port string) (retBool bool, retData stri
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallICMP(rule string, value string) (retBool bool, retData string) {
@@ -209,7 +218,8 @@ func FirewallICMP(rule string, value string) (retBool bool, retData string) {
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallGrouping(rule string, group string) (retBool bool, retData string) {
@@ -228,7 +238,8 @@ func FirewallGrouping(rule string, group string) (retBool bool, retData string) 
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallInterface(rule string, interfacee string) (retBool bool, retData string) {
@@ -247,7 +258,8 @@ func FirewallInterface(rule string, interfacee string) (retBool bool, retData st
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallProtocol(rule string, protocol string) (retBool bool, retData string) {
@@ -270,7 +282,8 @@ func FirewallProtocol(rule string, protocol string) (retBool bool, retData strin
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallDirection(rule string, direction string) (retBool bool, retData string) {
@@ -279,7 +292,8 @@ func FirewallDirection(rule string, direction string) (retBool bool, retData str
 
 	info, err := wapi.FirewallRuleGet(rule)
 	if err != nil {
-		return
+		out, _ := json.Marshal(info)
+		return retBool, string(out)
 	}
 
 	val, err := strconv.ParseInt(direction, 10, 32)
@@ -293,7 +307,8 @@ func FirewallDirection(rule string, direction string) (retBool bool, retData str
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallAction(rule string, action string) (retBool bool, retData string) {
@@ -302,7 +317,8 @@ func FirewallAction(rule string, action string) (retBool bool, retData string) {
 
 	info, err := wapi.FirewallRuleGet(rule)
 	if err != nil {
-		return
+		out, _ := json.Marshal(info)
+		return retBool, string(out)
 	}
 
 	val, err := strconv.ParseInt(action, 10, 32)
@@ -316,7 +332,8 @@ func FirewallAction(rule string, action string) (retBool bool, retData string) {
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallRuleProfile(rule string, profile string) (retBool bool, retData string) {
@@ -325,7 +342,8 @@ func FirewallRuleProfile(rule string, profile string) (retBool bool, retData str
 
 	info, err := wapi.FirewallRuleGet(rule)
 	if err != nil {
-		return
+		out, _ := json.Marshal(info)
+		return retBool, string(out)
 	}
 
 	val, err := strconv.ParseInt(profile, 10, 32)
@@ -339,7 +357,8 @@ func FirewallRuleProfile(rule string, profile string) (retBool bool, retData str
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallRuleEnabled(rule string, value string) (retBool bool, retData string) {
@@ -348,7 +367,8 @@ func FirewallRuleEnabled(rule string, value string) (retBool bool, retData strin
 
 	info, err := wapi.FirewallRuleGet(rule)
 	if err != nil {
-		return
+		out, _ := json.Marshal(info)
+		return retBool, string(out)
 	}
 
 	val, err := strconv.ParseBool(value)
@@ -362,7 +382,8 @@ func FirewallRuleEnabled(rule string, value string) (retBool bool, retData strin
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }
 
 func FirewallEdge(rule string, traversal string) (retBool bool, retData string) {
@@ -385,5 +406,6 @@ func FirewallEdge(rule string, traversal string) (retBool bool, retData string) 
 		}
 	}
 
-	return
+	out, _ := json.Marshal(info)
+	return retBool, string(out)
 }

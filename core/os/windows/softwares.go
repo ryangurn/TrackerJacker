@@ -21,11 +21,11 @@ func SoftwareExist(software string) (retBool bool, retData string){
 			if out, err := json.Marshal(v); err == nil {
 				return retBool, string(out)
 			}
-			return
 		}
 	}
 
-	return
+	out, _ := json.Marshal(softwares)
+	return retBool, string(out)
 }
 
 func SoftwareArch(software string, arch string) (retBool bool, retData string){
@@ -43,12 +43,12 @@ func SoftwareArch(software string, arch string) (retBool bool, retData string){
 				if out, err := json.Marshal(v); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(softwares)
+	return retBool, string(out)
 }
 
 func SoftwarePublisher(software string, publisher string) (retBool bool, retData string){
@@ -66,12 +66,12 @@ func SoftwarePublisher(software string, publisher string) (retBool bool, retData
 				if out, err := json.Marshal(v); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(softwares)
+	return retBool, string(out)
 }
 
 func SoftwareInstall(software string, date string) (retBool bool, retData string){
@@ -84,7 +84,7 @@ func SoftwareInstall(software string, date string) (retBool bool, retData string
 
 	for _, v := range softwares {
 		if v.DisplayName == software {
-			val, err := time.Parse("2016-01-02 15:04", date)
+			val, err := time.Parse("2006-01-02 15:04", date)
 			if err != nil {
 				return
 			}
@@ -94,12 +94,12 @@ func SoftwareInstall(software string, date string) (retBool bool, retData string
 				if out, err := json.Marshal(v); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(softwares)
+	return retBool, string(out)
 }
 
 func SoftwareEstimatedSize(software string, size string) (retBool bool, retData string){
@@ -122,12 +122,12 @@ func SoftwareEstimatedSize(software string, size string) (retBool bool, retData 
 				if out, err := json.Marshal(v); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(softwares)
+	return retBool, string(out)
 }
 
 func SoftwareContact(software string, contact string) (retBool bool, retData string){
@@ -145,12 +145,12 @@ func SoftwareContact(software string, contact string) (retBool bool, retData str
 				if out, err := json.Marshal(v); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(softwares)
+	return retBool, string(out)
 }
 
 func SoftwareHelplink(software string, link string) (retBool bool, retData string){
@@ -168,12 +168,12 @@ func SoftwareHelplink(software string, link string) (retBool bool, retData strin
 				if out, err := json.Marshal(v); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(softwares)
+	return retBool, string(out)
 }
 
 func SoftwareInstallSource(software string, source string) (retBool bool, retData string){
@@ -191,12 +191,12 @@ func SoftwareInstallSource(software string, source string) (retBool bool, retDat
 				if out, err := json.Marshal(v); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(softwares)
+	return retBool, string(out)
 }
 
 func SoftwareInstallLocation(software string, location string) (retBool bool, retData string){
@@ -214,12 +214,12 @@ func SoftwareInstallLocation(software string, location string) (retBool bool, re
 				if out, err := json.Marshal(v); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(softwares)
+	return retBool, string(out)
 }
 
 func SoftwareMajorVersion(software string, version string) (retBool bool, retData string){
@@ -242,12 +242,12 @@ func SoftwareMajorVersion(software string, version string) (retBool bool, retDat
 				if out, err := json.Marshal(v); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(softwares)
+	return retBool, string(out)
 }
 
 func SoftwareMinorVersion(software string, version string) (retBool bool, retData string){
@@ -270,10 +270,10 @@ func SoftwareMinorVersion(software string, version string) (retBool bool, retDat
 				if out, err := json.Marshal(v); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(softwares)
+	return retBool, string(out)
 }

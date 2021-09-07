@@ -29,11 +29,10 @@ func ShareExist(share string) (retBool bool, retData string) {
 			if out, err := json.Marshal(s); err == nil {
 				return retBool, string(out)
 			}
-			return
 		}
 	}
 
-	return
+	return retBool, string(out)
 }
 
 func ShareStatus(share string, status string) (retBool bool, retData string) {
@@ -51,11 +50,10 @@ func ShareStatus(share string, status string) (retBool bool, retData string) {
 					return retBool, string(out)
 				}
 			}
-			return
 		}
 	}
 
-	return
+	return retBool, string(out)
 }
 
 func ShareCaption(share string, caption string) (retBool bool, retData string) {
@@ -73,11 +71,10 @@ func ShareCaption(share string, caption string) (retBool bool, retData string) {
 					return retBool, string(out)
 				}
 			}
-			return
 		}
 	}
 
-	return
+	return retBool, string(out)
 }
 
 func ShareDescription(share string, description string) (retBool bool, retData string) {
@@ -95,11 +92,10 @@ func ShareDescription(share string, description string) (retBool bool, retData s
 					return retBool, string(out)
 				}
 			}
-			return
 		}
 	}
 
-	return
+	return retBool, string(out)
 }
 
 func SharePath(share string, path string) (retBool bool, retData string) {
@@ -117,11 +113,10 @@ func SharePath(share string, path string) (retBool bool, retData string) {
 					return retBool, string(out)
 				}
 			}
-			return
 		}
 	}
 
-	return
+	return retBool, string(out)
 }
 
 func ShareAllowMaximum(share string, maximum string) (retBool bool, retData string) {
@@ -144,11 +139,10 @@ func ShareAllowMaximum(share string, maximum string) (retBool bool, retData stri
 					return retBool, string(out)
 				}
 			}
-			return
 		}
 	}
 
-	return
+	return retBool, string(out)
 }
 
 func ShareType(share string, typ string) (retBool bool, retData string) {
@@ -171,10 +165,8 @@ func ShareType(share string, typ string) (retBool bool, retData string) {
 					return retBool, string(out)
 				}
 			}
-			return
 		}
 	}
 
-	return
+	return retBool, string(out)
 }
-//out := core.Command("Get-WmiObject win32_share | select Caption, Description, InstallDate, Status, AccessMask, AllowMaximum, MaximumAllowed, Name, Path, Type | convertto-json")

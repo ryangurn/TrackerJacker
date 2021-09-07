@@ -2,7 +2,6 @@ package windows
 
 import (
 	"encoding/json"
-	"fmt"
 	wapi "github.com/iamacarpet/go-win64api"
 )
 
@@ -21,11 +20,11 @@ func GroupExist(group string) (retBool bool, retData string) {
 			if out, err := json.Marshal(g); err == nil {
 				return retBool, string(out)
 			}
-			return
 		}
 	}
 
-	return
+	out, _ := json.Marshal(groups)
+	return retBool, string(out)
 }
 
 func GroupComment(group string, comment string) (retBool bool, retData string) {
@@ -34,7 +33,6 @@ func GroupComment(group string, comment string) (retBool bool, retData string) {
 
 	groups, err := wapi.ListLocalGroups()
 	if err != nil {
-		fmt.Printf("Error fetching group list, %s.\r\n", err.Error())
 		return
 	}
 
@@ -45,10 +43,10 @@ func GroupComment(group string, comment string) (retBool bool, retData string) {
 				if out, err := json.Marshal(g); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(groups)
+	return retBool, string(out)
 }

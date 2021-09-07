@@ -15,13 +15,15 @@ func HostExist(desiredHost string) (retBool bool, retData string) {
 				if host == desiredHost {
 					retBool = true
 					if out, err := json.Marshal(host); err == nil {
-						retData = string(out)
+						return retBool, string(out)
 					}
 				}
 			}
 		}
 	}
-	return
+
+	out, _ := json.Marshal(hosts.Lines)
+	return retBool, string(out)
 }
 
 func HostIpExist(desiredIp string) (retBool bool, retData string) {
@@ -38,5 +40,7 @@ func HostIpExist(desiredIp string) (retBool bool, retData string) {
 			}
 		}
 	}
-	return
+
+	out, _ := json.Marshal(hosts.Lines)
+	return retBool, string(out)
 }

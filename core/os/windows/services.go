@@ -21,11 +21,11 @@ func ServiceExist(svc string) (retBool bool, retData string) {
 			if out, err := json.Marshal(s); err == nil {
 				return retBool, string(out)
 			}
-			return
 		}
 	}
 
-	return
+	out, _ := json.Marshal(services)
+	return retBool, string(out)
 }
 
 func ServiceDisplayName(svc string, display string) (retBool bool, retData string) {
@@ -44,12 +44,12 @@ func ServiceDisplayName(svc string, display string) (retBool bool, retData strin
 				if out, err := json.Marshal(s); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(services)
+	return retBool, string(out)
 }
 
 func ServiceStatusText(svc string, text string) (retBool bool, retData string) {
@@ -68,12 +68,12 @@ func ServiceStatusText(svc string, text string) (retBool bool, retData string) {
 				if out, err := json.Marshal(s); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(services)
+	return retBool, string(out)
 }
 
 func ServiceStatus(svc string, status string) (retBool bool, retData string) {
@@ -97,12 +97,12 @@ func ServiceStatus(svc string, status string) (retBool bool, retData string) {
 				if out, err := json.Marshal(s); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
- return
+	out, _ := json.Marshal(services)
+	return retBool, string(out)
 }
 
 func ServiceAcceptStop(svc string, stop string) (retBool bool, retData string) {
@@ -126,12 +126,12 @@ func ServiceAcceptStop(svc string, stop string) (retBool bool, retData string) {
 				if out, err := json.Marshal(s); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
-	return
+	out, _ := json.Marshal(services)
+	return retBool, string(out)
 }
 
 func ServiceRunning(svc string, running string) (retBool bool, retData string) {
@@ -155,12 +155,12 @@ func ServiceRunning(svc string, running string) (retBool bool, retData string) {
 				if out, err := json.Marshal(s); err == nil {
 					return retBool, string(out)
 				}
-				return
 			}
 		}
 	}
 
- return
+	out, _ := json.Marshal(services)
+	return retBool, string(out)
 }
 
 func ServiceRunningPid(svc string, pid string) (retBool bool, retData string) {
@@ -184,12 +184,12 @@ func ServiceRunningPid(svc string, pid string) (retBool bool, retData string) {
 			 	if out, err := json.Marshal(s); err == nil {
 			 		return retBool, string(out)
 			 	}
-		 		return
 		 	}
 	 	}
  	}
 
- 	return
+	out, _ := json.Marshal(services)
+	return retBool, string(out)
 }
 
  func ServiceType(svc string, typ string) (retBool bool, retData string) {
@@ -213,10 +213,10 @@ func ServiceRunningPid(svc string, pid string) (retBool bool, retData string) {
 				 if out, err := json.Marshal(s); err == nil {
 					 return retBool, string(out)
 				 }
-				 return
 			 }
 		 }
 	 }
 
-	 return
+	 out, _ := json.Marshal(services)
+	 return retBool, string(out)
  }

@@ -19,10 +19,10 @@ func ProfileUserDirectory(dir string) (retBool bool, retData string) {
 		if out, err := json.Marshal(profile); err == nil {
 			return retBool, string(out)
 		}
-		return
 	}
 
-	return
+	out, _ := json.Marshal(profile)
+	return retBool, string(out)
 }
 
 func ProfileDirectory(dir string) (retBool bool, retData string) {
@@ -39,8 +39,8 @@ func ProfileDirectory(dir string) (retBool bool, retData string) {
 		if out, err := json.Marshal(profile); err == nil {
 			return retBool, string(out)
 		}
-		return
 	}
 
-	return
+	out, _ := json.Marshal(profile)
+	return retBool, string(out)
 }

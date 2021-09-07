@@ -2,7 +2,6 @@ package windows
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/ceshihao/windowsupdate"
 	"github.com/go-ole/go-ole"
 	wapi "github.com/iamacarpet/go-win64api"
@@ -25,7 +24,6 @@ func getUpdateHistory() (data []*windowsupdate.IUpdateHistoryEntry) {
 	}
 
 	// Query Update History
-	fmt.Println("Step 1: Query Update History")
 	searcher, err := session.CreateUpdateSearcher()
 	if err != nil {
 		panic(err)
@@ -52,7 +50,9 @@ func UpdateCompleted(update string) (retBool bool, retData string) {
 			}
 		}
 	}
-	return
+
+	out, _ := json.Marshal(history)
+	return retBool, string(out)
 }
 
 func UpdatePending(update string) (retBool bool, retData string) {
@@ -72,7 +72,9 @@ func UpdatePending(update string) (retBool bool, retData string) {
 			}
 		}
 	}
-	return
+
+	out, _ := json.Marshal(history)
+	return retBool, string(out)
 }
 
 func UpdateHistory(update string, status string) (retBool bool, retData string) {
@@ -94,5 +96,7 @@ func UpdateHistory(update string, status string) (retBool bool, retData string) 
 			}
 		}
 	}
-	return
+
+	out, _ := json.Marshal(history)
+	return retBool, string(out)
 }
