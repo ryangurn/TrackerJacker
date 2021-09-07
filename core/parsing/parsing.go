@@ -55,8 +55,8 @@ func (payload PayloadType) GetParameter(id int, key string) string {
 	return ""
 }
 
-func (payload PayloadType) DebugPrint(id int, result bool) {
-	fmt.Printf("Space: %s | Action: %s | ID: %d | Output: %t\n", payload.GetSpace(id), payload.GetAction(id), payload[id].ID, result)
+func (payload PayloadType) DebugPrint(id int, result bool, data string) {
+	fmt.Printf("Space: %s | Action: %s | ID: %d | Output: %t | Data %s\n", payload.GetSpace(id), payload.GetAction(id), payload[id].ID, result, data)
 }
 
 func ParsePayload(str []byte, payload *PayloadType) *PayloadType {
