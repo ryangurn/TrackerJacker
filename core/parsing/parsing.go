@@ -3,6 +3,9 @@ package parsing
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/bugsnag/bugsnag-go"
+	"github.com/bugsnag/bugsnag-go/errors"
+	"os"
 	"time"
 )
 
@@ -56,6 +59,38 @@ func (payload PayloadType) GetParameter(id int, key string) string {
 }
 
 func (payload PayloadType) DebugPrint(id int, result bool, data string) {
+	bugsnag.Notify(errors.Errorf("Sending Score"), bugsnag.HandledState{
+		SeverityReason:   bugsnag.SeverityReason("Sending Score"),
+		OriginalSeverity: bugsnag.SeverityInfo,
+		Unhandled:      false,
+	}, bugsnag.MetaData{
+		"RESULTS": {
+			"OUTPUT": result,
+		},
+		"DATA": {
+			"OUTPUT": data,
+		},
+		"ENV": {
+			"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+			"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+			"IMAGE": os.Getenv("IMAGE"),
+			"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+			"SERVER": os.Getenv("SERVER"),
+		},
+		"CHECK": {
+			"ID": payload[id].ID,
+			"IMAGE": payload[id].Image,
+			"RULE": payload[id].GetRule,
+			"RULE_ACTION": payload[id].RuleAction,
+			"SCORE": payload[id].Score,
+			"COMMENT": payload[id].Comment,
+			"SPACE": payload.GetSpace(id),
+			"ACTION": payload.GetAction(id),
+			"PARAMETER": payload[id].Parameters,
+		},
+	}, bugsnag.Event{
+		GroupingHash: payload.GetSpace(id)+"."+payload.GetAction(id),
+	})
 	fmt.Printf("Space: %s | Action: %s | ID: %d | Output: %t | Data %s\n", payload.GetSpace(id), payload.GetAction(id), payload[id].ID, result, data)
 }
 

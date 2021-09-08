@@ -2,7 +2,9 @@ package windows
 
 import (
 	"encoding/json"
+	"github.com/bugsnag/bugsnag-go"
 	wapi "github.com/iamacarpet/go-win64api"
+	"os"
 	"strconv"
 	"time"
 )
@@ -13,6 +15,19 @@ func UserExist(usr string) (retBool bool, retData string) {
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -35,6 +50,19 @@ func UserLoggedIn(usr string) (retBool bool, retData string) {
 
 	users, err := wapi.ListLoggedInUsers()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -57,11 +85,37 @@ func UserBadPassword(usr string, count string) (retBool bool, retData string) {
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
 	val, err := strconv.ParseUint(count, 10, 64)
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -86,6 +140,19 @@ func UserFullName(usr string, name string) (retBool bool, retData string) {
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -110,6 +177,19 @@ func UserAdmin(usr string) (retBool bool, retData string) {
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -134,6 +214,19 @@ func UserEnabled(usr string) (retBool bool, retData string) {
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -158,6 +251,19 @@ func UserLocked(usr string) (retBool bool, retData string) {
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -182,11 +288,37 @@ func UserLastLogon(usr string, date string) (retBool bool, retData string) {
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
 	val, err := time.Parse("2006-01-02 15:04", date)
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -211,6 +343,19 @@ func UserNoChangePassword(usr string) (retBool bool, retData string) {
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -235,6 +380,19 @@ func UserPasswordChangeable(usr string) (retBool bool, retData string) {
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -259,11 +417,37 @@ func UserNoOfLogons(usr string, count string) (retBool bool, retData string) {
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
 	val, err := strconv.ParseUint(count, 10, 64)
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -288,11 +472,37 @@ func UserPasswordAge(usr string, duration string) (retBool bool, retData string)
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
 	val, err := time.ParseDuration(duration)
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -317,6 +527,19 @@ func UserPasswordExpires(usr string) (retBool bool, retData string) {
 
 	users, err := wapi.ListLocalUsers()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 

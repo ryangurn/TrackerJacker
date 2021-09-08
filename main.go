@@ -36,6 +36,19 @@ func main() {
 		//fmt.Println("Error loading env file")
 		err = submission.Initialize(baseURL)
 		if err != nil {
+			bugsnag.Notify(err, bugsnag.HandledState{
+				SeverityReason:   bugsnag.SeverityReasonHandledError,
+				OriginalSeverity: bugsnag.SeverityWarning,
+				Unhandled:      false,
+			}, bugsnag.MetaData{
+				"ENV": {
+					"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+					"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+					"IMAGE": os.Getenv("IMAGE"),
+					"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+					"SERVER": os.Getenv("SERVER"),
+				},
+			})
 			return
 		}
 	}
@@ -48,10 +61,24 @@ func main() {
 		AppVersion: 	"0.0.1",
 		ProjectPackages: []string{"main"},
 	})
+	bugsnag.AutoNotify()
 
 	// get check data
 	checks, err := submission.GetPayload()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -66,6 +93,19 @@ func main() {
 	// set batch value
 	batch, err := uuid.NewUUID()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -87,10 +127,33 @@ func main() {
 			} else if payload.GetAction(i) == "hash" {
 				str, err := cross.FileHash(payload.GetParameter(i, "path"))
 				if err != nil {
-					// hashing error
-					payload.DebugPrint(i, false, "")
+					bugsnag.Notify(err, bugsnag.HandledState{
+						SeverityReason:   bugsnag.SeverityReasonUnhandledError,
+						OriginalSeverity: bugsnag.SeverityError,
+						Unhandled:      false,
+					}, bugsnag.MetaData{
+						"ENV": {
+							"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+							"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+							"IMAGE": os.Getenv("IMAGE"),
+							"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+							"SERVER": os.Getenv("SERVER"),
+						},
+						"CHECK": {
+							"ID": payload[i].ID,
+							"IMAGE": payload[i].Image,
+							"RULE": payload[i].GetRule,
+							"RULE_ACTION": payload[i].RuleAction,
+							"SCORE": payload[i].Score,
+							"COMMENT": payload[i].Comment,
+							"SPACE": payload.GetSpace(i),
+							"ACTION": payload.GetAction(i),
+							"PARAMETER": payload[i].Parameters,
+						},
+					}, bugsnag.Event{
+						GroupingHash: payload.GetSpace(i)+"."+payload.GetAction(i),
+					})
 				} else {
-					// no error
 					result := str == payload.GetParameter(i, "hash")
 					payload.DebugPrint(i, result, str) // debug print
 					submission.Send(str, result, payload[i].ID, batch) // send score

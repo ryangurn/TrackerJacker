@@ -2,7 +2,9 @@ package windows
 
 import (
 	"encoding/json"
+	"github.com/bugsnag/bugsnag-go"
 	wapi "github.com/iamacarpet/go-win64api"
+	"os"
 )
 
 func GroupExist(group string) (retBool bool, retData string) {
@@ -11,6 +13,19 @@ func GroupExist(group string) (retBool bool, retData string) {
 
 	groups, err := wapi.ListLocalGroups()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -33,6 +48,19 @@ func GroupComment(group string, comment string) (retBool bool, retData string) {
 
 	groups, err := wapi.ListLocalGroups()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 

@@ -3,6 +3,8 @@ package windows
 import (
 	"TrackerJacker/core"
 	"encoding/json"
+	"github.com/bugsnag/bugsnag-go"
+	"os"
 	"strconv"
 )
 
@@ -22,7 +24,24 @@ func ShareExist(share string) (retBool bool, retData string) {
 
 	out := core.Command("Get-WmiObject win32_share | select Name | convertto-json")
 	var structures ShareStruct
-	json.Unmarshal([]byte(out), &structures)
+	err := json.Unmarshal([]byte(out), &structures)
+	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
+		return
+	}
+
 	for _, s := range structures {
 		if s.Name == share {
 			retBool = true
@@ -42,7 +61,24 @@ func ShareStatus(share string, status string) (retBool bool, retData string) {
 
 	out := core.Command("Get-WmiObject win32_share | select Name, Status | convertto-json")
 	var structures ShareStruct
-	json.Unmarshal([]byte(out), &structures)
+	err := json.Unmarshal([]byte(out), &structures)
+	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
+		return
+	}
+
 	for _, s := range structures {
 		if s.Name == share {
 			if s.Status == status {
@@ -64,7 +100,24 @@ func ShareCaption(share string, caption string) (retBool bool, retData string) {
 
 	out := core.Command("Get-WmiObject win32_share | select Name, Caption | convertto-json")
 	var structures ShareStruct
-	json.Unmarshal([]byte(out), &structures)
+	err := json.Unmarshal([]byte(out), &structures)
+	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
+		return
+	}
+
 	for _, s := range structures {
 		if s.Name == share {
 			if s.Caption == caption {
@@ -86,7 +139,24 @@ func ShareDescription(share string, description string) (retBool bool, retData s
 
 	out := core.Command("Get-WmiObject win32_share | select Name, Description | convertto-json")
 	var structures ShareStruct
-	json.Unmarshal([]byte(out), &structures)
+	err := json.Unmarshal([]byte(out), &structures)
+	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
+		return
+	}
+
 	for _, s := range structures {
 		if s.Name == share {
 			if s.Description == description {
@@ -108,7 +178,24 @@ func SharePath(share string, path string) (retBool bool, retData string) {
 
 	out := core.Command("Get-WmiObject win32_share | select Name, Path | convertto-json")
 	var structures ShareStruct
-	json.Unmarshal([]byte(out), &structures)
+	err := json.Unmarshal([]byte(out), &structures)
+	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
+		return
+	}
+
 	for _, s := range structures {
 		if s.Name == share {
 			if s.Path == path {
@@ -130,12 +217,42 @@ func ShareAllowMaximum(share string, maximum string) (retBool bool, retData stri
 
 	val, err := strconv.ParseBool(maximum)
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
 	out := core.Command("Get-WmiObject win32_share | select Name, AllowMaximum | convertto-json")
 	var structures ShareStruct
-	json.Unmarshal([]byte(out), &structures)
+	err = json.Unmarshal([]byte(out), &structures)
+	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
+		return
+	}
+
 	for _, s := range structures {
 		if s.Name == share {
 			if s.AllowMaximum == val {
@@ -157,12 +274,42 @@ func ShareType(share string, typ string) (retBool bool, retData string) {
 
 	val, err := strconv.ParseInt(typ, 10, 64)
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
 	out := core.Command("Get-WmiObject win32_share | select Name, AllowMaximum | convertto-json")
 	var structures ShareStruct
-	json.Unmarshal([]byte(out), &structures)
+	err = json.Unmarshal([]byte(out), &structures)
+	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
+		return
+	}
+
 	for _, s := range structures {
 		if s.Name == share {
 			if s.Type == val {

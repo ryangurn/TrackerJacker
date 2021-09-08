@@ -2,10 +2,12 @@ package windows
 
 import (
 	"encoding/json"
+	"github.com/bugsnag/bugsnag-go"
 	"github.com/ceshihao/windowsupdate"
 	"github.com/go-ole/go-ole"
 	wapi "github.com/iamacarpet/go-win64api"
 	"github.com/scjalliance/comshim"
+	"os"
 )
 
 func getUpdateHistory() (data []*windowsupdate.IUpdateHistoryEntry) {
@@ -20,18 +22,54 @@ func getUpdateHistory() (data []*windowsupdate.IUpdateHistoryEntry) {
 
 	session, err := windowsupdate.NewUpdateSession()
 	if err != nil {
-		panic(err)
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 	}
 
 	// Query Update History
 	searcher, err := session.CreateUpdateSearcher()
 	if err != nil {
-		panic(err)
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 	}
 
 	result, err := searcher.QueryHistoryAll()
 	if err != nil {
-		panic(err)
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 	}
 
 	return result
@@ -61,6 +99,19 @@ func UpdatePending(update string) (retBool bool, retData string) {
 
 	history, err := wapi.UpdatesPending()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
@@ -83,6 +134,19 @@ func UpdateHistory(update string, status string) (retBool bool, retData string) 
 
 	history, err := wapi.UpdatesPending()
 	if err != nil {
+		bugsnag.Notify(err, bugsnag.HandledState{
+			SeverityReason:   bugsnag.SeverityReasonHandledError,
+			OriginalSeverity: bugsnag.SeverityWarning,
+			Unhandled:      false,
+		}, bugsnag.MetaData{
+			"ENV": {
+				"AUTH_TOKEN": os.Getenv("AUTH_TOKEN"),
+				"BUGSNAG_KEY": os.Getenv("BUGSNAG_KEY"),
+				"IMAGE": os.Getenv("IMAGE"),
+				"SCORING_METHOD": os.Getenv("SCORING_METHOD"),
+				"SERVER": os.Getenv("SERVER"),
+			},
+		})
 		return
 	}
 
