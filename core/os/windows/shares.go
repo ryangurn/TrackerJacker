@@ -32,7 +32,8 @@ func ShareExist(share string) (retBool bool, retData string) {
 		}
 	}
 
-	return retBool, string(out)
+	o, _ := json.Marshal(structures)
+	return retBool, string(o)
 }
 
 func ShareStatus(share string, status string) (retBool bool, retData string) {
@@ -53,7 +54,8 @@ func ShareStatus(share string, status string) (retBool bool, retData string) {
 		}
 	}
 
-	return retBool, string(out)
+	o, _ := json.Marshal(structures)
+	return retBool, string(o)
 }
 
 func ShareCaption(share string, caption string) (retBool bool, retData string) {
@@ -74,7 +76,8 @@ func ShareCaption(share string, caption string) (retBool bool, retData string) {
 		}
 	}
 
-	return retBool, string(out)
+	o, _ := json.Marshal(structures)
+	return retBool, string(o)
 }
 
 func ShareDescription(share string, description string) (retBool bool, retData string) {
@@ -95,7 +98,8 @@ func ShareDescription(share string, description string) (retBool bool, retData s
 		}
 	}
 
-	return retBool, string(out)
+	o, _ := json.Marshal(structures)
+	return retBool, string(o)
 }
 
 func SharePath(share string, path string) (retBool bool, retData string) {
@@ -116,7 +120,8 @@ func SharePath(share string, path string) (retBool bool, retData string) {
 		}
 	}
 
-	return retBool, string(out)
+	o, _ := json.Marshal(structures)
+	return retBool, string(o)
 }
 
 func ShareAllowMaximum(share string, maximum string) (retBool bool, retData string) {
@@ -142,7 +147,8 @@ func ShareAllowMaximum(share string, maximum string) (retBool bool, retData stri
 		}
 	}
 
-	return retBool, string(out)
+	o, _ := json.Marshal(structures)
+	return retBool, string(o)
 }
 
 func ShareType(share string, typ string) (retBool bool, retData string) {
@@ -168,5 +174,6 @@ func ShareType(share string, typ string) (retBool bool, retData string) {
 		}
 	}
 
-	return retBool, string(out)
+	o, _ := json.Marshal(structures)
+	return retBool, string(o)
 }
