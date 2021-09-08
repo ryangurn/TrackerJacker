@@ -2,7 +2,6 @@ package windows
 
 import (
 	"encoding/json"
-	"fmt"
 	wapi "github.com/iamacarpet/go-win64api"
 	"strconv"
 	"time"
@@ -61,13 +60,13 @@ func UserBadPassword(usr string, count string) (retBool bool, retData string) {
 		return
 	}
 
+	val, err := strconv.ParseUint(count, 10, 64)
+	if err != nil {
+		return
+	}
+
 	for _, u := range users {
 		if usr == u.Username {
-			val, err := strconv.ParseUint(count, 10, 64)
-			if err != nil {
-				return
-			}
-
 			if u.BadPasswordCount == uint32(val) {
 				retBool = true
 				if out, err := json.Marshal(u); err == nil {
@@ -186,14 +185,13 @@ func UserLastLogon(usr string, date string) (retBool bool, retData string) {
 		return
 	}
 
+	val, err := time.Parse("2006-01-02 15:04", date)
+	if err != nil {
+		return
+	}
+
 	for _, u := range users {
 		if usr == u.Username {
-			val, err := time.Parse("2006-01-02 15:04", date)
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-
 			if u.LastLogon == val {
 				retBool = true
 				if out, err := json.Marshal(u); err == nil {
@@ -264,13 +262,13 @@ func UserNoOfLogons(usr string, count string) (retBool bool, retData string) {
 		return
 	}
 
+	val, err := strconv.ParseUint(count, 10, 64)
+	if err != nil {
+		return
+	}
+
 	for _, u := range users {
 		if usr == u.Username {
-			val, err := strconv.ParseUint(count, 10, 64)
-			if err != nil {
-				return
-			}
-
 			if u.NumberOfLogons == uint32(val) {
 				retBool = true
 				if out, err := json.Marshal(u); err == nil {
@@ -293,13 +291,13 @@ func UserPasswordAge(usr string, duration string) (retBool bool, retData string)
 		return
 	}
 
+	val, err := time.ParseDuration(duration)
+	if err != nil {
+		return
+	}
+
 	for _, u := range users {
 		if usr == u.Username {
-			val, err := time.ParseDuration(duration)
-			if err != nil {
-				return
-			}
-
 			if u.PasswordAge == val {
 				retBool = true
 				if out, err := json.Marshal(u); err == nil {

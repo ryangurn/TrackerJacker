@@ -82,13 +82,13 @@ func SoftwareInstall(software string, date string) (retBool bool, retData string
 		return
 	}
 
+	val, err := time.Parse("2006-01-02 15:04", date)
+	if err != nil {
+		return
+	}
+
 	for _, v := range softwares {
 		if v.DisplayName == software {
-			val, err := time.Parse("2006-01-02 15:04", date)
-			if err != nil {
-				return
-			}
-
 			if v.InstallDate == val {
 				retBool = true
 				if out, err := json.Marshal(v); err == nil {
@@ -110,13 +110,13 @@ func SoftwareEstimatedSize(software string, size string) (retBool bool, retData 
 		return
 	}
 
+	val, err := strconv.ParseUint(size, 10, 64)
+	if err != nil {
+		return
+	}
+
 	for _, v := range softwares {
 		if v.DisplayName == software {
-			val, err := strconv.ParseUint(size, 10, 64)
-			if err != nil {
-				return
-			}
-
 			if v.EstimatedSize == uint64(val) {
 				retBool = true
 				if out, err := json.Marshal(v); err == nil {
@@ -230,13 +230,13 @@ func SoftwareMajorVersion(software string, version string) (retBool bool, retDat
 		return
 	}
 
+	val, err := strconv.ParseUint(version, 10, 64)
+	if err != nil {
+		return
+	}
+
 	for _, v := range softwares {
 		if v.DisplayName == software {
-			val, err := strconv.ParseUint(version, 10, 64)
-			if err != nil {
-				return
-			}
-
 			if v.VersionMajor == uint64(val) {
 				retBool = true
 				if out, err := json.Marshal(v); err == nil {
@@ -258,13 +258,13 @@ func SoftwareMinorVersion(software string, version string) (retBool bool, retDat
 		return
 	}
 
+	val, err := strconv.ParseUint(version, 10, 64)
+	if err != nil {
+		return
+	}
+
 	for _, v := range softwares {
 		if v.DisplayName == software {
-			val, err := strconv.ParseUint(version, 10, 64)
-			if err != nil {
-				return
-			}
-
 			if v.VersionMajor == uint64(val) {
 				retBool = true
 				if out, err := json.Marshal(v); err == nil {

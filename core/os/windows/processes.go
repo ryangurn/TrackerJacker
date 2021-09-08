@@ -36,13 +36,13 @@ func ProcessPID(executable string, pid string) (retBool bool, retData string) {
 		return
 	}
 
+	val, err := strconv.ParseInt(pid, 10, 32)
+	if err != nil {
+		return
+	}
+
 	for _, p := range processes {
 		if p.Executable == executable {
-			val, err := strconv.ParseInt(pid, 10, 32)
-			if err != nil {
-				return
-			}
-
 			if p.Pid == int(val) {
 				retBool = true
 				if out, err := json.Marshal(p); err == nil {
@@ -65,13 +65,13 @@ func ProcessPPID(executable string, ppid string) (retBool bool, retData string) 
 		return
 	}
 
+	val, err := strconv.ParseInt(ppid, 10, 32)
+	if err != nil {
+		return
+	}
+
 	for _, p := range processes {
 		if p.Executable == executable {
-			val, err := strconv.ParseInt(ppid, 10, 32)
-			if err != nil {
-				return
-			}
-
 			if p.Ppid == int(val) {
 				retBool = true
 				if out, err := json.Marshal(p); err == nil {

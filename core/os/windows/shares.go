@@ -123,16 +123,16 @@ func ShareAllowMaximum(share string, maximum string) (retBool bool, retData stri
 	retBool = false
 	retData = ""
 
+	val, err := strconv.ParseBool(maximum)
+	if err != nil {
+		return
+	}
+
 	out := core.Command("Get-WmiObject win32_share | select Name, AllowMaximum | convertto-json")
 	var structures ShareStruct
 	json.Unmarshal([]byte(out), &structures)
 	for _, s := range structures {
 		if s.Name == share {
-			val, err := strconv.ParseBool(maximum)
-			if err != nil {
-				return
-			}
-
 			if s.AllowMaximum == val {
 				retBool = true
 				if out, err := json.Marshal(s); err == nil {
@@ -149,16 +149,16 @@ func ShareType(share string, typ string) (retBool bool, retData string) {
 	retBool = false
 	retData = ""
 
+	val, err := strconv.ParseInt(typ, 10, 64)
+	if err != nil {
+		return
+	}
+
 	out := core.Command("Get-WmiObject win32_share | select Name, AllowMaximum | convertto-json")
 	var structures ShareStruct
 	json.Unmarshal([]byte(out), &structures)
 	for _, s := range structures {
 		if s.Name == share {
-			val, err := strconv.ParseInt(typ, 10, 64)
-			if err != nil {
-				return
-			}
-
 			if s.Type == val {
 				retBool = true
 				if out, err := json.Marshal(s); err == nil {
