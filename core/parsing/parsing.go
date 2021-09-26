@@ -39,7 +39,7 @@ type PayloadType []struct {
 		Description string    		`json:"description"`
 		CreatedAt   time.Time 		`json:"created_at"`
 		UpdatedAt   time.Time 		`json:"updated_at"`
-	} 								`json:"get_rule"`
+	} 								`json:"rel_rule"`
 }
 
 func (payload PayloadType) GetSpace(id int) string {
