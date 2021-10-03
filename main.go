@@ -154,7 +154,7 @@ func main() {
 						GroupingHash: payload.GetSpace(i)+"."+payload.GetAction(i),
 					})
 				} else {
-					result := str == payload.GetParameter(i, "hash")
+					result := str == payload.GetParameter(i, "expected")
 					payload.DebugPrint(i, result, str) // debug print
 					submission.Send(str, result, payload[i].ID, batch) // send score
 				}
