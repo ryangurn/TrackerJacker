@@ -14,7 +14,7 @@ func HostExist(desiredHost string) (retBool bool, retData string) {
 			for _, host := range line.Hosts {
 				if host == desiredHost {
 					retBool = true
-					if out, err := json.Marshal(host); err == nil {
+					if out, err := json.Marshal(line); err == nil {
 						return retBool, string(out)
 					}
 				}
@@ -35,7 +35,7 @@ func HostIpExist(desiredIp string) (retBool bool, retData string) {
 			if line.IP == desiredIp {
 				retBool = true
 				if out, err := json.Marshal(line); err == nil {
-					retData = string(out)
+					return retBool, string(out)
 				}
 			}
 		}
